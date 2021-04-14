@@ -9,3 +9,8 @@
       border-top-right-radius: 4px;
   }
 }
+.hv-sm-100{
+  @media #{map-get($display-breakpoints, 'sm-and-up')} {
+      height: 100vh;
+  }
+}
