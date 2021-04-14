@@ -1,0 +1,11 @@
+@import '~vuetify/src/styles/settings/_variables';
+
+.rounded-left-xs {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  @media #{map-get($display-breakpoints, 'xs-only')} {
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 0;
+      border-top-right-radius: 4px;
+  }
+}

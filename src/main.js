@@ -4,7 +4,7 @@ import vuetify from './plugins/vuetify';
 import router from './router'
 import firebase from 'firebase/app'
 import store from "./store";
-
+import './assets/app.scss'
 Vue.config.productionTip = false
 
 const configOptions = {

@@ -30,14 +30,24 @@
                         <router-link :to="'/contact'" class="menu-item">Contacts</router-link>
                         <router-link :to="'/commissions'" class="menu-item">Commissions</router-link>
                     </div>
-                    <v-btn href="/login" text v-else>
-                        <span class="mr-2">Login</span>
+                    <v-btn
+                            color="primary"
+                            dark
+                            outlined
+                            rounded
+                             v-else
+                            :to="{name:'login'}"
+                    >
+                        Login
                     </v-btn>
-                    <v-spacer></v-spacer>
-                    <div class="text-right">
-                        <div class="mr-2 subtitle-2">Oracle Price:<span class="orange--text darken-4 ml-2">{{ oracleprice.data.price/100000000 }} $ </span>
+                    <v-spacer v-if="user.loggedIn"></v-spacer>
+                    <div class="text-right" v-if="user.loggedIn">
+                        <div class="mr-2 subtitle-2">Oracle Price:
+                            <span class="gold_4--text darken-4 ml-2">
+                                {{ oracleprice.data.price/100000000 }} $
+                            </span>
                         </div>
-                        <v-menu offset-y v-if="user.loggedIn">
+                        <v-menu offset-y>
                             <template v-slot:activator="{ on, attrs }">
                                 <v-btn
                                         color="primary"
@@ -92,15 +102,15 @@
                         >
                             <v-list-item-title class="subtitle-2">Account</v-list-item-title>
                         </v-list-item>
-                         <v-list-item :to="'/hotspot'" dense
+                        <v-list-item :to="'/hotspot'" dense
                         >
                             <v-list-item-title class="subtitle-2">Hotspot</v-list-item-title>
                         </v-list-item>
-                         <v-list-item :to="'/rewrds'" dense
+                        <v-list-item :to="'/rewrds'" dense
                         >
                             <v-list-item-title class="subtitle-2">Rewards</v-list-item-title>
                         </v-list-item>
-                         <v-list-item :to="'/contact'" dense
+                        <v-list-item :to="'/contact'" dense
                         >
                             <v-list-item-title class="subtitle-2">Contacts</v-list-item-title>
                         </v-list-item>
@@ -140,7 +150,7 @@
                         </template>
                         <v-list>
                             <v-list-item>
-                                <v-list-item-title class="subtitle-2 orange--text darken-4 text-center">
+                                <v-list-item-title class="subtitle-2 gold_4--text darken-4 text-center">
                                     Hi, {{ user.data.displayName }}
                                     <div class="mr-2 subtitle-2 black--text">Oracle Price:<span
                                             class="purple--text darken-4 ml-2">{{ oracleprice.data.price/100000000 }} $ </span>
@@ -222,19 +232,19 @@
     .menu-item {
         text-decoration: none !important;
         padding: 5px 10px;
-        color: black;
+        color: var(--v-secondary-base);
         font-size: 14px;
 
         &:hover {
-            color: #1a4dfa;
+            color: var(--v-primary-base);
         }
 
         &.router-link-exact-active {
-            color: orange;
+            color: var(--v-gold_4-base);
         }
 
         &:not(:last-child) {
-            border-right: 1px solid #1a4dfa;
+            border-right: 1px solid var(--v-primary-base);
         }
     }
 </style>
