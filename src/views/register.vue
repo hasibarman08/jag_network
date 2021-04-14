@@ -4,18 +4,22 @@
             <div class="ma-auto text-center white--text">
                 <v-icon class="contact-icon purple--text darken-1" x-large>mdi-login</v-icon>
                 <br/>
-                <div class="subtitle my-5">Don't have account? please
-                    <v-btn class="ml-2 white--text" outlined :to="{name:'register'}">Sign Up</v-btn>
+                <div class="subtitle my-5">Have account? please
+                    <v-btn class="ml-2 white--text" outlined :to="{name:'login'}">Login</v-btn>
                 </div>
-                <span class="my-5">
-                    <v-btn rounded text class="lime--text text-capitalize" link><u>Forget password?</u></v-btn>
-                </span>
             </div>
         </v-col>
         <v-col sm="6" cols="12" class="px-7 py-3 hv-sm-100 d-flex">
             <v-card class="ma-auto" elevation="0" :width="$vuetify.breakpoint.smAndUp ? '70%' : '85%'">
                 <v-form ref="form" class="text-center">
-                    <div class="headline secondary--text font-weight-bold my-2">Login</div>
+                    <div class="headline secondary--text font-weight-bold my-2">Sign Up</div>
+                    <v-text-field v-model="form.name"
+                                  label="Username*"
+                                  class="my-5"
+                                  required
+                                  :rules="rules.requiredRules"
+                    >
+                    </v-text-field>
                     <v-text-field v-model="form.email"
                                   label="Email*"
                                   type="email"
@@ -32,7 +36,7 @@
                                   :rules="rules.requiredRules"
                     >
                     </v-text-field>
-                    <v-btn class="purple darken-1 white--text my-3" @click="login">login</v-btn>
+                    <v-btn class="purple darken-1 white--text my-3" @click="register">register</v-btn>
                     <v-alert
                             dense
                             outlined
@@ -52,6 +56,7 @@
 
 <script>
     import firebase from "firebase";
+    import axios from 'axios';
 
     export default {
         name: 'App',
@@ -71,15 +76,27 @@
         }),
 
         methods: {
-            login() {
-                this.error=null;
+            register() {
+                this.error = null;
                 if (this.$refs.form.validate()) {
                     firebase
                         .auth()
-                        .signInWithEmailAndPassword(this.form.email, this.form.password)
-                        .then((data) => {
+                        .createUserWithEmailAndPassword(this.form.email, this.form.password)
+                        .then(data => {
+                            data.user
+                                .updateProfile({
+                                    displayName: this.form.name
+                                })
+                                .then(() => {
+                                });
+                            axios.post(`https://api.jag.network/user/${firebase.auth().currentUser.uid}`);
+                            const user = firebase.auth().currentUser;
                             this.$router.replace({name: "account"});
+
+                            // send the signed in user a verification email
+                            user.sendEmailVerification();
                         })
+
                         .catch(err => {
                             this.error = err.message;
                         });
