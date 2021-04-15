@@ -4,7 +4,7 @@
             <v-col cols="12">
                 <v-card class="pa-3 purple darken-1">
                     <div class="d-flex justify-space-between align-center">
-                        <div class="text-h5 font-weight-bold white--text">Hotspots</div>
+                        <div class="text-sm-h5 text-xs-h6 font-weight-bold white--text">Hotspots</div>
                         <v-dialog
                                 v-model="dialog"
                                 width="500"

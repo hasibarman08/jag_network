@@ -106,7 +106,7 @@
                         >
                             <v-list-item-title class="subtitle-2">Hotspot</v-list-item-title>
                         </v-list-item>
-                        <v-list-item :to="'/rewrds'" dense
+                        <v-list-item :to="'/rewards'" dense
                         >
                             <v-list-item-title class="subtitle-2">Rewards</v-list-item-title>
                         </v-list-item>
