@@ -24,14 +24,14 @@
                     <div v-if="user.loggedIn">
 
                         <!--                    <span class="mr-2">Oracle Price: </span><span class="yellow&#45;&#45;text darken-4">{{ oracleprice.data.price/100000000 }} $ </span>-->
-                        <router-link :to="'/'" class="menu-item">Account</router-link>
+                        <router-link :to="{name:'account'}" class="menu-item">Account</router-link>
                         <router-link :to="'/hotspot'" class="menu-item">Hotspot</router-link>
                         <router-link :to="'/rewards'" class="menu-item">Rewards</router-link>
                         <router-link :to="'/contact'" class="menu-item">Contacts</router-link>
                         <router-link :to="'/commissions'" class="menu-item">Commissions</router-link>
                     </div>
                     <v-btn
-                            color="primary"
+                            color="purple darken-1"
                             dark
                             outlined
                             rounded
@@ -50,7 +50,7 @@
                         <v-menu offset-y>
                             <template v-slot:activator="{ on, attrs }">
                                 <v-btn
-                                        color="primary"
+                                        color="purple darken-1"
                                         dark
                                         v-bind="attrs"
                                         v-on="on"
@@ -62,7 +62,7 @@
                                 </v-btn>
                             </template>
                             <v-list>
-                                <v-list-item :to="'/'" dense
+                                <v-list-item :to="{name:'account'}" dense
                                 >
                                     <v-list-item-title class="subtitle-2">Profile</v-list-item-title>
                                 </v-list-item>
@@ -98,7 +98,7 @@
                     </template>
 
                     <v-list>
-                        <v-list-item :to="'/account'" dense
+                        <v-list-item :to="{name:'account'}" dense
                         >
                             <v-list-item-title class="subtitle-2">Account</v-list-item-title>
                         </v-list-item>
@@ -136,7 +136,7 @@
                     <v-menu offset-y>
                         <template v-slot:activator="{ on, attrs }">
                             <v-btn
-                                    color="primary"
+                                    color="purple darken-1"
                                     dark
                                     v-bind="attrs"
                                     v-on="on"
@@ -157,7 +157,7 @@
                                     </div>
                                 </v-list-item-title>
                             </v-list-item>
-                            <v-list-item :to="'/'" dense
+                            <v-list-item :to="{name:'account'}" dense
                             >
                                 <v-list-item-title class="subtitle-2">Profile</v-list-item-title>
                             </v-list-item>
@@ -169,7 +169,8 @@
                         </v-list>
                     </v-menu>
                 </div>
-                <v-btn href="/login" color="primary"
+                <v-btn href="/login"
+                       color="purple darken-1"
                        dark
                        outlined
                        rounded

@@ -8,7 +8,7 @@
                     <v-btn class="ml-2 white--text" outlined :to="{name:'register'}">Sign Up</v-btn>
                 </div>
                 <span class="my-5">
-                    <v-btn rounded text class="lime--text text-capitalize" link><u>Forget password?</u></v-btn>
+                    <v-btn rounded text class="lime--text text-capitalize" link><u>Forgot password?</u></v-btn>
                 </span>
             </div>
         </v-col>
