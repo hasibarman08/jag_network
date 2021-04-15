@@ -31,7 +31,6 @@
                                         <v-text-field
                                                 v-model="message"
                                                 :append-outer-icon="message ? 'mdi-send' : 'mdi-send'"
-                                                :prepend-icon="icon"
                                                 filled
                                                 clearable
                                                 label="Enter Hotspot Address"
@@ -142,6 +141,7 @@
                 mapurl: "",
                 start: "",
                 today: "",
+                message:''
             }
         },
         mounted() {
@@ -197,20 +197,3 @@
         },
     }
 </script>
-<style>
-    .border-left-1 {
-        border-left: 3px solid red !important;
-    }
-
-    .border-left-2 {
-        border-left: 3px solid blue !important;
-    }
-
-    .border-left-3 {
-        border-left: 3px solid green !important;
-    }
-
-    .border-left-4 {
-        border-left: 3px solid orange !important;
-    }
-</style>

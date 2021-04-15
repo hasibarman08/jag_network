@@ -1,15 +1,15 @@
 <template>
     <v-container class="my-7">
-        <v-card max-width="750px" class="ma-auto">
+        <v-card class="ma-auto">
             <v-row class="mx-0">
-                <v-col sm="4" cols="12" class="purple darken-1 pa-7 d-flex align-items-center rounded-left-xs">
+                <v-col sm="5" cols="12" class="purple darken-1 pa-7 d-flex align-items-center rounded-left-xs">
                     <div class="ma-auto text-center white--text">
                         <v-icon class="contact-icon purple--text darken-1" large>mdi-newspaper-variant</v-icon>
                         <br/>
                         <span class="text-h6">Please fill your contact information.</span>
                     </div>
                 </v-col>
-                <v-col sm="8" cols="12" class="px-7 py-3">
+                <v-col sm="7" cols="12" class="px-7 py-3">
                     <v-form ref="form">
                         <div class="headline secondary--text font-weight-bold my-2">Contact Information</div>
                         <v-text-field v-model="contact.name"

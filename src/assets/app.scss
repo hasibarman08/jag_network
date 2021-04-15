@@ -4,13 +4,30 @@
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
   @media #{map-get($display-breakpoints, 'xs-only')} {
-      border-top-left-radius: 4px;
-      border-bottom-left-radius: 0;
-      border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 4px;
   }
 }
-.hv-sm-100{
+
+.hv-sm-100 {
   @media #{map-get($display-breakpoints, 'sm-and-up')} {
-      height: 100vh;
+    height: 100vh;
   }
+}
+
+.border-left-1 {
+  border-left: 3px solid red !important;
+}
+
+.border-left-2 {
+  border-left: 3px solid blue !important;
+}
+
+.border-left-3 {
+  border-left: 3px solid green !important;
+}
+
+.border-left-4 {
+  border-left: 3px solid orange !important;
 }
