@@ -5,7 +5,41 @@
                 <v-card class="pa-3 purple darken-1">
                     <div class="d-flex justify-space-between align-center">
                         <div class="text-sm-h5 text-xs-h6 font-weight-bold white--text">Commissions</div>
+                                                                <v-dialog
+                                v-model="dialog"
+                                width="500"
+                        >
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn
+                                        outlined
+                                        dark
+                                        small
+                                        v-bind="attrs"
+                                        v-on="on"
+                                >
+                                    Request Cashback
+                                </v-btn>
+                            </template>
 
+                            <v-card>
+                                <v-card-title class="headline purple darken-1 white--text">
+                                    Request Cashback
+                                </v-card-title>
+                                <v-card-text class="pa-3">
+                                    <div>
+                                                <v-select
+          :items="items"
+          label="Payment method"
+          v-model="message"
+                                                :append-outer-icon="message ? 'mdi-send' : 'mdi-send'"
+
+                                                @click:append-outer=sendRequest(message)
+        ></v-select>
+
+                                    </div>
+                                </v-card-text>
+                            </v-card>
+                        </v-dialog>
                     </div>
                 </v-card>
             </v-col>
@@ -84,7 +118,6 @@
                         </div>
                     </div>
                 </v-card>
-                        <v-btn class="purple darken-1 white--text my-3 float-right">Request Cashback</v-btn>
             </v-col>
             <v-col md="8" cols="12" class="my-2">
                 <v-card class="pa-2" style="height: 100%" min-height="300px">
@@ -106,6 +139,7 @@
         },
         data() {
             return {
+                 items: ['ETH', 'BTC', 'HNT', 'Zelle','PayPal'],
                 dialog: false,
                 hotspotDetails: [],
                 hotspotTotal: [],
@@ -157,6 +191,11 @@
                 }).then((resp) => {
                     this.oracleprice = resp.data;
                 })
+            },
+            sendRequest(message){
+                this.dialog = false,
+                axios.post(`https://api.jag.network/user/request/${this.uid}`,{method:message})
+
             },
             getuid() {
                 this.uid = this.user.data.uid
