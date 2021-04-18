@@ -90,12 +90,17 @@
                                 })
                                 .then(() => {
                                 });
-                  axios.post(`https://api.jag.network/user/${this.uid}`,{email:this.form.email,name:this.form.name});
-                  const user = firebase.auth().currentUser;
+                    const user = firebase.auth().currentUser;
+                    console.log(user)
+                  axios.post(`https://api.jag.network/user/${user.uid}`,{email:this.form.email,name:this.form.name})
+                  .then((response) => {
+  axios.post(`https://api.jag.network/wallet/${user.uid}`,{address:"13XUm3U9NkQzdiH28YH5hsXd27b83cLGLaFf4PiCt4FxW3dFJXm"});
+                  axios.post(`https://api.jag.network/payment/${user.uid}`,{});  
+}, (error) => {
+  console.log(error);
+});                               
                   // send the signed in user a verification email
                   user.sendEmailVerification();
-                  axios.post(`https://api.jag.network/wallet/${this.uid}`,{address:"13XUm3U9NkQzdiH28YH5hsXd27b83cLGLaFf4PiCt4FxW3dFJXm"});
-                  axios.post(`https://api.jag.network/payment/${this.uid}`,{});
           this.$router.replace({ name: "dashboard" });
                         })
 
