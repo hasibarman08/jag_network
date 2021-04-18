@@ -15,12 +15,14 @@
                         <v-text-field v-model="contact.name"
                                       label="Name*"
                                       required
+                                      disabled
                                       :rules="rules.requiredRules"
                         >
                         </v-text-field>
                         <v-text-field v-model="contact.email"
                                       label="Email*"
                                       type="email"
+                                      disabled
                                       required
                                       :rules="rules.emailRules"
                         >
@@ -37,6 +39,14 @@
                                       label="BTC address"
                         >
                         </v-text-field>
+                                                <v-text-field v-model="contact.paypal_address"
+                                      label="PayPal email"
+                        >
+                        </v-text-field>
+                                                <v-text-field v-model="contact.zelle_address"
+                                      label="Zelle"
+                        >
+                        </v-text-field>
                         <v-textarea v-model="contact.hnt_address"
                                     label="HNT address"
                                     auto-grow
@@ -44,7 +54,9 @@
                                     row-height="15"
                         >
                         </v-textarea>
+                        {{info.Antenna}}
                         <v-btn class="purple darken-1 white--text my-3 float-right" @click="save">Save</v-btn>
+
                     </v-form>
 
                 </v-col>
@@ -56,10 +68,13 @@
 </template>
 
 <script>
+import axios from 'axios';
+import { mapGetters } from "vuex";
 
     export default {
         name: 'App',
         data: () => ({
+                info:{},
             contact: {},
             rules: {
                 requiredRules: [v => !!v || 'This field is required'],
@@ -69,13 +84,80 @@
                 ],
             }
         }),
+            computed: {
+        ...mapGetters({
+      user: "user",
+    }),
+    },
 
+          beforeMount() {
+              this.getuid();
+        this.contact.name = this.user.data.displayName,
+        this.contact.email = this.user.data.email
+
+    },
         methods: {
+                  getuid() {
+          this.uid = this.user.data.uid
+          axios.get(`https://api.jag.network/user/payment/${this.uid}`, {
+          headers: { 'accept': 'application/json'}}).then((resp)=>{
+                try {console.log(resp.data[0]),
+                this.info = resp.data[0],
+                this.populateField(resp.data[0])
+                } 
+catch(err) {
+  console.log('empty profile')
+}
+  })
+
+      },
+populateField(arr) {
+    console.log(arr.paypal);
+    this.contact.paypal_address = arr.paypal
+            try {
+                this.contact.paypal_address = arr.paypal
+            } catch (err) {
+                console.log('empty value')
+            }
+            try {
+                this.contact.zelle_address = arr.zelle
+            } catch (err) {
+                console.log('empty value')
+            }
+            try {
+                this.contact.btc_address = arr.BTC
+            } catch (err) {
+                console.log('empty value')
+            }
+            try {
+                this.contact.eth_address = arr.ETH
+            } catch (err) {
+                console.log('empty value')
+            }
+            try {
+                this.contact.hnt_address = arr.HNT
+            } catch (err) {
+                console.log('empty value')
+            }
+            try {
+                this.contact.phone = arr.Mobile
+            } catch (err) {
+                console.log('empty value')
+            }
+        },
             save() {
                 if (this.$refs.form.validate()) {
                     console.log(this.contact);
-                    // this.$refs.form.reset();
-                    // this.$refs.form.resetValidation()
+                    let payload = {
+                        hnt:this.contact.hnt_address,
+                        paypal:this.contact.paypal_address ,
+                        zelle:this.contact.zelle_address ,
+                        mobile:this.contact.phone ,
+                        btc:this.contact.btc_address,
+                        eth:this.contact.eth_address
+                        };
+                    axios.put(`https://api.jag.network/payment/${this.uid}`, payload),{ headers: {'Content-Type': 'application/json'} } ;
+
                 }
             },
         },

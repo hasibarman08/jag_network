@@ -63,7 +63,6 @@
                                 <v-text-field
                                         v-model="dateFormatted"
                                         label="Start Date"
-                                        hint="MM/DD/YYYY format"
                                         persistent-hint
                                         prepend-icon="mdi-calendar"
                                         v-bind="attrs"
@@ -77,7 +76,6 @@
                                     @input="menu1 = false"
                             ></v-date-picker>
                         </v-menu>
-                        <p>Date in ISO format: <strong>{{ date }}</strong></p>
                     </v-col>
                     <v-col md="4" cols="12">
                         <v-menu
@@ -92,7 +90,6 @@
                                 <v-text-field
                                         v-model="computedDateFormatted"
                                         label="End Date"
-                                        hint="MM/DD/YYYY format"
                                         persistent-hint
                                         prepend-icon="mdi-calendar"
                                         readonly
@@ -101,19 +98,18 @@
                                 ></v-text-field>
                             </template>
                             <v-date-picker
-                                    v-model="date"
+                                    v-model="date2"
                                     no-title
                                     @input="menu2 = false"
                             ></v-date-picker>
                         </v-menu>
-                        <p>Date in ISO format: <strong>{{ date }}</strong></p>
                     </v-col>
                     <v-col md="4" cols="12" class="text-center">
                         <v-btn
                                 tile
                                 dark
                                 color="purple darken-1"
-                                @click=accountActivity(message2,start,today)
+                                @click=filtereward(date,date2)
                         >
                             <v-icon left>
                                 mdi-content-save
@@ -170,6 +166,7 @@
 <script>
     import axios from 'axios';
     import moment from 'moment';
+    import { mapGetters } from "vuex";
 
     export default {
 
@@ -192,7 +189,8 @@
             }
             this.today = yyyy + '-' + mm + '-' + dd;
             this.start = yyyy + '-' + m2 + '-' + dd;
-            this.accountActivity('112iR9AJMpB7hN4o4H6jDYkYstXaorWGKnDt6VTAvC8Fzan2skuT', this.start, this.today);
+            this.getuid();
+            //this.accountActivity('112iR9AJMpB7hN4o4H6jDYkYstXaorWGKnDt6VTAvC8Fzan2skuT', this.start, this.today);
         },
         data() {
             return {
@@ -207,11 +205,14 @@
                 message2:'',
                 message:'',
                 date:'',
+                date2:'',
                 dateFormatted:'',
+                uid:''
 
             }
         },
-        computed: {
+        computed: {            ...mapGetters({
+      user: "user",}),
             headers() {
                 return [
                     {
@@ -228,7 +229,7 @@
                 ]
             },
             computedDateFormatted() {
-                return this.formatDate(this.date)
+                return this.formatDate(this.date2)
             },
         },
 
@@ -239,40 +240,57 @@
         },
 
         methods: {
+       getuid() {
+                    this.uid = this.user.data.uid,
+axios.get(`https://api.jag.network/user/hotspot/${this.uid}`, {
+          headers: { 'accept': 'application/json'}}).then((resp)=>{
+                            try {console.log(resp.data);
+        this.accountActivity(resp.data[0].Haddress,this.start,this.today);}     
+catch(err) {
+  console.log('empty profile')
+}
+        
+  })
+      },
+             filtereward(start,today) {
+                 console.log(start),
+                 console.log(today),
+                 axios.get(`https://api.jag.network/user/hotspot/${this.uid}`, {
+          headers: { 'accept': 'application/json'}}).then((resp)=>{
+                            try {console.log(resp.data);
+        this.accountActivity(resp.data[0].Haddress,start,today);}     
+catch(err) {
+  console.log('empty profile')
+}
+  })
+      },
+    rewardaccount(address,start,today) {
+              axios.get(`https://api.helium.io/v1/accounts/${address}/rewards/sum?max_time=${today}&min_time=${start}`, {
+          headers: { 'accept': 'application/json'}}).then((resp)=>{
+        this.accountTotal = resp.data;
+  })
+      axios.get(`https://api.helium.io/v1/accounts/${address}/rewards?max_time=${today}&min_time=${start}`, {
+          headers: { 'accept': 'application/json'}}).then((resp)=>{
+        this.rewards = resp.data;
+        
+      })
+    },
+    accountActivity(address,start,today) {
+      var cursor = [];
+              axios.get(`https://api.helium.io/v1/hotspots/${address}/rewards?max_time=${today}&min_time=${start}`, {
+          headers: { 'accept': 'application/json'}}).then((resp)=>{
+        axios.get(`https://api.helium.io/v1/hotspots/${address}/rewards?max_time=${today}&min_time=${start}&cursor=${resp.data.cursor}`, {
+          headers: { 'accept': 'application/json'}}).then((resp)=>{
+                resp.data.data.forEach((item) => item.amount = parseInt(item.amount)/100000000 );
+                this.activity = resp.data;
+        })
+        })
+                      axios.get(`https://api.helium.io/v1/hotspots/${address}/rewards/sum?max_time=${today}&min_time=${start}`, {
+          headers: { 'accept': 'application/json'}}).then((resp)=>{
+        this.hotspotTotal = resp.data;
+        })
 
-            rewardaccount(address, start, today) {
-                axios.get(`https://api.helium.io/v1/accounts/${address}/rewards/sum?max_time=${today}&min_time=${start}`, {
-                    headers: {'accept': 'application/json'}
-                }).then((resp) => {
-                    this.accountTotal = resp.data;
-                })
-                axios.get(`https://api.helium.io/v1/accounts/${address}/rewards?max_time=${today}&min_time=${start}`, {
-                    headers: {'accept': 'application/json'}
-                }).then((resp) => {
-                    this.rewards = resp.data;
-
-                })
-            },
-            accountActivity(address, start, today) {
-                var cursor = [];
-                axios.get(`https://api.helium.io/v1/hotspots/${address}/rewards?max_time=${today}&min_time=${start}`, {
-                    headers: {'accept': 'application/json'}
-                }).then((resp) => {
-                    axios.get(`https://api.helium.io/v1/hotspots/${address}/rewards?max_time=${today}&min_time=${start}&cursor=${resp.data.cursor}`, {
-                        headers: {'accept': 'application/json'}
-                    }).then((resp) => {
-                        resp.data.data.forEach((item) => item.amount = parseInt(item.amount) / 100000000);
-                        this.activity = resp.data;
-                    })
-                })
-                console.log(`https://api.helium.io/v1/hotspots/${address}/rewards?max_time=${today}&min_time=${start}`)
-                axios.get(`https://api.helium.io/v1/hotspots/${address}/rewards/sum?max_time=${today}&min_time=${start}`, {
-                    headers: {'accept': 'application/json'}
-                }).then((resp) => {
-                    this.hotspotTotal = resp.data;
-                })
-
-            },
+    },
             filterOnlyCapsText(value, search) {
                 return value != null &&
                     search != null &&
