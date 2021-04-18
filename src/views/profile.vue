@@ -162,6 +162,7 @@
                 hotspotaccount: [],
                 props: ['uid'],
                 address: '',
+                uid: "",
                 message:''
             }
         },
@@ -192,26 +193,21 @@
             },
         },
 
-        mounted() {
-            //this.getuid();
-            this.accountInfo("13e9FspopfcB9QR745AzmqTQ3fXhzBBGpaYeSQ17VciGNcCk9x2");
-            axios.get(`https://api.jag.network/user/wallet/${this.user.data.uid}`, {
-                headers: {'accept': 'application/json'}
-            }).then((resp) => {
-                try {
-                    this.accountInfo(resp.data[0].address);
-                } catch (err) {
-
-                    console.log('empty profile')
-                }
-            })
-
-
+        beforeMount() {
+            this.getuid();
         },
         methods: {
-            getuid() {
-                this.uid = firebase.auth().currentUser.uid
-            },
+    getuid() {
+          this.uid = this.user.data.uid
+          axios.get(`https://api.jag.network/user/wallet/${this.uid}`, {
+          headers: { 'accept': 'application/json'}}).then((resp)=>{
+                try {console.log(resp.data[0].address);
+        this.accountInfo(resp.data[0].address);}     
+catch(err) {
+  console.log('empty profile')
+}
+  })
+      },
             accountInfo(address) {
                 this.dialog = false,
                     axios.get(`https://api.helium.io/v1/accounts/${address}/activity`, {
@@ -234,7 +230,7 @@
             },
             saveAccount(address) {
                 let payload = {address: address};
-                let res = axios.put(`https://api.jag.network/wallet/${this.user.data.uid}`, payload);
+                let res = axios.put(`https://api.jag.network/wallet/${this.uid}`, payload);
                 let data = res.data;
             },
 

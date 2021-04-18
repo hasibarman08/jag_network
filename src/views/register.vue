@@ -61,6 +61,7 @@
     export default {
         name: 'App',
         data: () => ({
+            uid:'',
             form: {
                 email: "",
                 password: ""
@@ -89,12 +90,13 @@
                                 })
                                 .then(() => {
                                 });
-                            axios.post(`https://api.jag.network/user/${firebase.auth().currentUser.uid}`);
-                            const user = firebase.auth().currentUser;
-                            this.$router.replace({name: "account"});
-
-                            // send the signed in user a verification email
-                            user.sendEmailVerification();
+                  axios.post(`https://api.jag.network/user/${this.uid}`,{email:this.form.email,name:this.form.name});
+                  const user = firebase.auth().currentUser;
+                  // send the signed in user a verification email
+                  user.sendEmailVerification();
+                  axios.post(`https://api.jag.network/wallet/${this.uid}`,{address:"13XUm3U9NkQzdiH28YH5hsXd27b83cLGLaFf4PiCt4FxW3dFJXm"});
+                  axios.post(`https://api.jag.network/payment/${this.uid}`,{});
+          this.$router.replace({ name: "dashboard" });
                         })
 
                         .catch(err => {

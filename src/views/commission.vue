@@ -4,43 +4,8 @@
             <v-col cols="12">
                 <v-card class="pa-3 purple darken-1">
                     <div class="d-flex justify-space-between align-center">
-                        <div class="text-sm-h5 text-xs-h6 font-weight-bold white--text">Hotspots</div>
-                        <v-dialog
-                                v-model="dialog"
-                                width="500"
-                        >
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-btn
-                                        outlined
-                                        dark
-                                        small
-                                        v-bind="attrs"
-                                        v-on="on"
-                                >
-                                    Track Hotspot
-                                </v-btn>
-                            </template>
+                        <div class="text-sm-h5 text-xs-h6 font-weight-bold white--text">Commissions</div>
 
-                            <v-card>
-                                <v-card-title class="headline purple darken-1 white--text">
-                                    Track Hotspot
-                                </v-card-title>
-                                <v-card-text class="pa-3">
-
-                                    <div>
-                                        <v-text-field
-                                                v-model="message"
-                                                :append-outer-icon="message ? 'mdi-send' : 'mdi-send'"
-                                                filled
-                                                clearable
-                                                label="Enter Hotspot Address"
-                                                type="text"
-                                                @click:append-outer=hotspotDet(message,start,today)
-                                        ></v-text-field>
-                                    </div>
-                                </v-card-text>
-                            </v-card>
-                        </v-dialog>
                     </div>
                 </v-card>
             </v-col>
@@ -88,11 +53,11 @@
                             <v-card-title
                                     class="text-h6"
                             >
-                                Owner
+                                Installation Date
                             </v-card-title>
 
                             <v-card-subtitle>
-                                {{ hotspotDetails.data.owner }}
+                                               {{ hotspotDetails.data.timestamp_added.substring(0,10) }}
                             </v-card-subtitle>
                         </div>
                     </div>
@@ -103,16 +68,23 @@
                     <div>
                         <div>
                             <v-card-subtitle class="pb-0">
-                                Total Reward for the hotspot in the last 3 Months
+                                Total Reward for the hotspot after Commissions
                             </v-card-subtitle>
                             <v-card-title
                                     class="text-h6 gold_4--text"
                             >
-                                {{ hotspotTotal.data.total.toFixed(2) }} HNT
+                                {{  ((hotspotTotal.data.total/100) * 20).toFixed(2) }} HNT
                             </v-card-title>
+                                                        <v-card-title
+                                    class="text-h6 gold_4--text"
+                            >
+                            Price Now:  {{ (oracleprice.data.price/100000000).toFixed(2) }} $ /HNT
+                            </v-card-title>
+
                         </div>
                     </div>
                 </v-card>
+                        <v-btn class="purple darken-1 white--text my-3 float-right">Request Cashback</v-btn>
             </v-col>
             <v-col md="8" cols="12" class="my-2">
                 <v-card class="pa-2" style="height: 100%" min-height="300px">
@@ -126,7 +98,7 @@
 
 <script>
     import axios from 'axios';
-import { mapGetters } from "vuex";
+    import {mapGetters} from "vuex";
 
     export default {
         setup() {
@@ -142,14 +114,16 @@ import { mapGetters } from "vuex";
                 start: "",
                 today: "",
                 message:'',
-                uid:''
+                uid:"",
+                oracleprice: null,
             }
+            
         },
-            computed: {
-        ...mapGetters({
-      user: "user",
-    }),
-    },
+                computed: {
+            ...mapGetters({
+                user: "user",
+            }),
+                    },
         beforeMount() {
             var start = new Date();
             var today = new Date();
@@ -157,6 +131,7 @@ import { mapGetters } from "vuex";
             var mm = today.getMonth() + 1;
             var m2 = today.getMonth() - 2;
             var yyyy = today.getFullYear();
+            var yyyy2 = today.getFullYear()-1;
             if (dd < 10) {
                 dd = '0' + dd;
             }
@@ -167,23 +142,30 @@ import { mapGetters } from "vuex";
                 m2 = '0' + m2;
             }
             this.today = yyyy + '-' + mm + '-' + dd;
-            this.start = yyyy + '-' + m2 + '-' + dd;
+            this.start = yyyy2 + '-' + m2 + '-' + dd;
+            this.getOracleValue();
             this.getuid();
+
         },
+
         methods: {
-        getuid() {
-                    this.uid = this.user.data.uid,
-                     console.log(`https://api.jag.network/user/hotspot/${this.uid}`);
-axios.get(`https://api.jag.network/user/hotspot/${this.uid}`, {
-          headers: { 'accept': 'application/json'}}).then((resp)=>{
-                            try {console.log(resp.data);
-        this.hotspotDet(resp.data[0].Haddress,this.start,this.today);}     
-catch(err) {
-  console.log('empty profile')
-}
-        
-  })
-      },
+                        getOracleValue() {
+                axios.get(`https://api.helium.io/v1/oracle/prices/current`, {
+                    headers: {
+                        'accept': 'application/json'
+                    },
+                }).then((resp) => {
+                    this.oracleprice = resp.data;
+                })
+            },
+            getuid() {
+                this.uid = this.user.data.uid
+                            axios.get(`https://api.jag.network/user/hotspot/${this.uid}`, {
+                headers: {'accept': 'application/json'}
+            }).then((resp) => {
+                this.hotspotDet(resp.data[0].Haddress, this.start, this.today);
+            })
+            },
             hotspotDet(address, start, today) {
                 this.dialog = false,
                     axios.get(`https://api.helium.io/v1/hotspots/${address}`, {

@@ -5,7 +5,7 @@ import contact from './views/contact.vue'
 import home from './views/home.vue'
 import hotspot from './views/hotspot.vue'
 import rewards from './views/rewards.vue'
-import test from './components/test.vue'
+import commission from './views/commission.vue'
 import login from './views/login.vue'
 import register from './views/register.vue'
 import dashboard from './views/dashboard.vue'
@@ -36,7 +36,6 @@ export default new Router({
                     path: '/account',
                     name: 'account',
                     component: profile,
-                    props: (route) => ({query: route.query.uid})
                 },
                 {
                     path: '/contact',
@@ -54,9 +53,9 @@ export default new Router({
                     component: rewards
                 },
                 {
-                    path: '/test',
-                    name: 'test',
-                    component: test
+                    path: '/commissions',
+                    name: 'commission',
+                    component: commission
                 },
             ]
         },

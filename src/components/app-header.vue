@@ -114,7 +114,7 @@
                         >
                             <v-list-item-title class="subtitle-2">Contacts</v-list-item-title>
                         </v-list-item>
-                        <v-list-item :to="'/commisions'" dense
+                        <v-list-item :to="'/commissions'" dense
                         >
                             <v-list-item-title class="subtitle-2">Commissions</v-list-item-title>
                         </v-list-item>
