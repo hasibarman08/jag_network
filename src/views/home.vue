@@ -13,16 +13,17 @@
                         billions
                         of devices. When your hotspot is used you earn the Helium (HNT) cryptocurrency.
                     </div>
-                    <div class="mt-5">
+                    <div>
                         <v-btn
                                 rounded
                                 color="primary darken-1"
                                 dark
+                                large
                         >
                             join today
                         </v-btn>
-
                     </div>
+
                 </v-col>
                 <v-col sm="6" cols="12" class="d-flex">
                     <v-img src="./../assets/chartt.png" class="ml-md-auto"></v-img>
@@ -40,15 +41,139 @@
                                 v-if="media.video"
                                 class="video"
                                 width="100%"
-                                height="500px"
+                                height="100%"
+                                style="min-height: 350px"
                                 :src="url"
                                 loading="lazy"
                                 sandbox="allow-forms allow-scripts allow-pointer-lock allow-same-origin allow-top-navigation allow-presentation"
-                        />
+                        ></iframe>
                     </v-container>
                     <div class="text-center my-5">
-                        <v-btn x-large rounded color="white">Sign up</v-btn>
+                        <v-btn large rounded color="white">Sign up</v-btn>
                     </div>
+                </v-col>
+            </v-row>
+        </v-container>
+        <v-container>
+            <v-row>
+                <v-col cols="12">
+                    <div class="primary--text text-lg-h4 text-h5 text-uppercase text-center my-5">
+                        OUR PROCESS
+                    </div>
+                    <v-row class="mt-7">
+                        <v-col sm="6" lg="4" cols="12" class="my-2">
+                            <v-card height="100%">
+                                <v-icon color="purple" large class="ca-icon">mdi-calendar</v-icon>
+                                <div class="primary--text text-uppercase text-h5 text-center font-weight-bold">
+                                    SCHEDULE
+                                </div>
+                                <v-card-text>
+                                    <div class="subtitle-1">
+                                        Fill out our intro questionnaire and we’ll work with you to find a time to come
+                                        install
+                                        the hotspot at no cost to you. INSTALL
+                                        Our certified techs will come to you and install the hotspot in under 30 minutes
+                                        while
+                                        following COVID protocols. This small device takes
+                                    </div>
+                                </v-card-text>
+                            </v-card>
+
+                        </v-col>
+                        <v-col sm="6" lg="4" cols="12" class="my-2">
+                            <v-card height="100%">
+                                <v-icon color="purple" large class="ca-icon">mdi-desktop-mac-dashboard</v-icon>
+                                <div class="primary--text text-uppercase text-h5 text-center font-weight-bold">
+                                    INSTALL
+                                </div>
+                                <v-card-text>
+                                    <div class="subtitle-1">
+                                        Our certified techs will come to you and install the hotspot in under 30 minutes
+                                        while
+                                        following COVID protocols. This small device takes about the same energy as a
+                                        single
+                                        5W
+                                        LED light bulb and uses minimal internet bandwidth.
+                                    </div>
+                                </v-card-text>
+
+                            </v-card>
+                        </v-col>
+                        <v-col sm="6" lg="4" cols="12" class="my-2">
+                            <v-card height="100%">
+
+                                <v-icon color="purple" large class="ca-icon">mdi-currency-usd</v-icon>
+                                <div class="primary--text text-uppercase text-h5 text-center font-weight-bold">
+                                    EARN
+                                </div>
+                                <v-card-text>
+                                    <div class="subtitle-1">
+                                        You are now a part of the Helium People’s Network and will be rewarded when
+                                        devices
+                                        send
+                                        data across your network. Sit back and earn!
+                                    </div>
+                                </v-card-text>
+                            </v-card>
+                        </v-col>
+                    </v-row>
+                    <div class="text-center my-5">
+                        <v-btn large rounded dark color="purple darken-1">Schedule Now</v-btn>
+                    </div>
+                </v-col>
+            </v-row>
+        </v-container>
+        <div class="position-relative video-container">
+            <v-row>
+                <v-col cols="12">
+                    <div class="white--text text-lg-h4 text-h5 text-uppercase text-center my-5">
+                        Building the Global IoT Wireless Network
+                    </div>
+                </v-col>
+                <v-container>
+                    <v-row class="my-5">
+                        <v-col cols="12" sm="6">
+                            <v-card height="100%" color="transparent" max-width="350px" class="ma-auto">
+                                <v-img :src="require('../assets/logo.png')" height="100px" width="100px"
+                                       class="ma-auto"></v-img>
+                                <v-card-text>
+                                    <div class="text-h6 text-center white--text">
+                                        Learn more about Helium (HNT) and the world's fastest-growing
+                                        wireless network ever
+                                    </div>
+                                </v-card-text>
+                                <div class="text-center mt-4">
+                                    <v-btn large rounded dark color="primary darken-1">Helium.com</v-btn>
+                                </div>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="12" sm="6" class="border-left-2">
+                            <v-card height="100%" color="transparent" max-width="350px" class="ma-auto">
+                                <v-img :src="require('../assets/logo.png')" height="100px" width="100px"
+                                       class="ma-auto"></v-img>
+                                <v-card-text>
+                                    <div class="text-h6 text-center white--text">
+                                        Visit our FAQ's section for an in-depth look at becoming a member of the JAG
+                                        Network
+                                    </div>
+                                </v-card-text>
+                                <div class="text-center mt-4">
+                                    <v-btn large rounded dark color="primary darken-1">FAQ's</v-btn>
+                                </div>
+                            </v-card>
+                        </v-col>
+                    </v-row>
+                </v-container>
+            </v-row>
+        </div>
+        <v-container>
+            <v-row>
+                <v-col cols="12" class="text-center">
+                    <div class=" text-lg-h4 text-h5 text-uppercase text-center my-4">
+                        Need more info?
+                    </div>
+                    <v-btn large rounded dark color="secondary darken-1" class="my-4">CONTACT US</v-btn>
+                    <p>info@jagindustrials.com</p>
                 </v-col>
             </v-row>
         </v-container>
@@ -155,3 +280,23 @@
         }
     };
 </script>
+<style>
+    .ca-icon {
+        position: absolute;
+        top: -20px;
+        left: calc(50% - 30px);
+        background: white;
+        box-shadow: 0px -3px 7px -1px #c1c1c1;
+        border-radius: 50% !important;
+        padding: 10px;
+    }
+
+    .video-container {
+        min-height: 500px;
+        position: relative;
+        background-image: url("../assets/download.jpg");
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+</style>
