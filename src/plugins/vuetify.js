@@ -14,7 +14,8 @@ export default new Vuetify({
                 info: '#2196F3',
                 success: '#4CAF50',
                 warning: '#FFC107',
-                gold_4: '#E65100'
+                gold_4: '#E65100',
+                light: '#f8f8f8',
             },
         },
         options: {

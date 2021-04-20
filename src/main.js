@@ -5,6 +5,10 @@ import router from './router'
 import firebase from 'firebase/app'
 import store from "./store";
 import './assets/app.scss'
+import VueApexCharts from 'vue-apexcharts'
+Vue.use(VueApexCharts)
+
+Vue.component('apexchart', VueApexCharts)
 Vue.config.productionTip = false
 
 const configOptions = {
