@@ -11,6 +11,7 @@ import register from './views/register.vue'
 import dashboard from './views/dashboard.vue'
 import DashboardLayout from './layout/dashboardLayout'
 import AuthLayout from './layout/authLayout'
+import forgot from './views/forgot'
 Vue.use(Router)
 
 export default new Router({
@@ -56,6 +57,11 @@ export default new Router({
                     path: '/commissions',
                     name: 'commission',
                     component: commission
+                },
+                                {
+                    path: '/forgot',
+                    name: 'forgot',
+                    component: forgot
                 },
             ]
         },
