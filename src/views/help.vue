@@ -23,7 +23,7 @@
                 </v-expansion-panels>
             </v-card>
         </v-row>
-        <v-row class="mx-0 pa-7" style="position: relative">
+        <v-row class="mx-0 pa-7">
             <div class="container support-content">
                 <img src="../assets/bg-footer.svg" class="bg-footer" alt="">
                 <div class="support-body d-flex justify-center align-center text-center flex-wrap">
