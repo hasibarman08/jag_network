@@ -1,28 +1,39 @@
 <template>
     <v-container>
-        <v-row class="mx-0">
-            <v-card width="100%">
-                <v-col cols="12" class="pa-7 purple darken-1 align-items-center">
+        <v-card>
+            <v-toolbar
+                    flat
+                    color="purple darken-1"
+                    dark
+            >
+                <div class="text-h4">FAQ</div>
+            </v-toolbar>
+            <v-tabs vertical active-class="purple--text" slider-color="purple darken-1">
+                <v-tab v-for="(item,idx) in categories" :key="idx" >
+                    {{item.name}}
+                </v-tab>
 
-                    <div class="ma-auto text-center white--text">
-                        <div class="text-h3 my-4">FAQ</div>
-                    </div>
-                </v-col>
-            </v-card>
-            <v-card class="faq-card" width="95%">
-                <v-expansion-panels accordion>
-                    <v-expansion-panel
-                            v-for="(item,i) in faq"
-                            :key="i"
-                    >
-                        <v-expansion-panel-header class="subtitle-1 font-weight-bold">{{item.question}}</v-expansion-panel-header>
-                        <v-expansion-panel-content class="subtitle-2">
-                            <div v-text="item.answer"></div>
-                        </v-expansion-panel-content>
-                    </v-expansion-panel>
-                </v-expansion-panels>
-            </v-card>
-        </v-row>
+                <v-tab-item v-for="(item,idx) in categories"  :key="idx">
+                    <v-card flat min-height="300px" color="purple darken-1" tile>
+                        <v-card-text class="pa-1">
+                                <v-expansion-panels accordion>
+                                    <v-expansion-panel
+                                            v-for="(item,i) in item.faq"
+                                            :key="i"
+                                    >
+                                        <v-expansion-panel-header class="subtitle-1 font-weight-bold">
+                                            {{item.question}}
+                                        </v-expansion-panel-header>
+                                        <v-expansion-panel-content class="subtitle-2">
+                                            <div v-text="item.answer"></div>
+                                        </v-expansion-panel-content>
+                                    </v-expansion-panel>
+                                </v-expansion-panels>
+                        </v-card-text>
+                    </v-card>
+                </v-tab-item>
+            </v-tabs>
+        </v-card>
         <v-row class="mx-0 pa-7">
             <div class="container support-content">
                 <img src="../assets/bg-footer.svg" class="bg-footer" alt="">
@@ -32,7 +43,8 @@
                         <h4>info@jagindustrials.com</h4>
                     </div>
                     <div class="flex-1 ma-2">
-                        <v-btn color="red darken-3" class="white--text" href="https://www.jag.network/contact">Contact
+                        <v-btn color="purple darken-1" class="white--text" href="https://www.jag.network/contact">
+                            Contact
                             Support
                         </v-btn>
                     </div>
@@ -50,19 +62,52 @@
     export default {
         name: 'App',
         data: () => ({
-            faq: [
+            currentTab: null,
+            categories: [
                 {
-                    question: 'lorem ipsum dolor lodl fdsfd sdfdsf sdfsdf?',
-                    answer: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus asperiores cumque cupiditate deserunt\n' +
-                        '        distinctio earum harum molestias necessitatibus nihil obcaecati omnis ratione rerum saepe sapiente similique,\n' +
-                        '        sit soluta veniam, voluptatibus.'
+                    name: 'category 1',
+                    faq: [
+                        {
+                            question: 'lorem ipsum dolor lodl fdsfd sdfdsf sdfsdf?',
+                            answer: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus asperiores cumque cupiditate deserunt\n' +
+                                '        distinctio earum harum molestias necessitatibus nihil obcaecati omnis ratione rerum saepe sapiente similique,\n' +
+                                '        sit soluta veniam, voluptatibus.'
+                        },
+                        {question: 'question 2?', answer: 'answer 2'},
+                        {question: 'question 3?', answer: 'answer 3'},
+                        {question: 'question 4?', answer: 'answer 4'},
+                        {question: 'question 5?', answer: 'answer 5'},
+                        {question: 'question 6?', answer: 'answer 6'},
+                    ]
                 },
-                {question: 'question 2?', answer: 'answer 2'},
-                {question: 'question 3?', answer: 'answer 3'},
-                {question: 'question 4?', answer: 'answer 4'},
-                {question: 'question 5?', answer: 'answer 5'},
-                {question: 'question 6?', answer: 'answer 6'},
-            ]
+                {
+                    name: 'category 2',
+                    faq: [
+                        {
+                            question: 'lorem ipsum dolor lodl fdsfd sdfdsf sdfsdf?',
+                            answer: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus asperiores cumque cupiditate deserunt\n' +
+                                '        distinctio earum harum molestias necessitatibus nihil obcaecati omnis ratione rerum saepe sapiente similique,\n' +
+                                '        sit soluta veniam, voluptatibus.'
+                        },
+                        {question: 'question 2?', answer: 'answer 2'},
+                        {question: 'question 3?', answer: 'answer 3'},
+
+                    ]
+                },
+                {
+                    name: 'category 3',
+                    faq: [
+                        {
+                            question: 'lorem ipsum dolor lodl fdsfd sdfdsf sdfsdf?',
+                            answer: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus asperiores cumque cupiditate deserunt\n' +
+                                '        distinctio earum harum molestias necessitatibus nihil obcaecati omnis ratione rerum saepe sapiente similique,\n' +
+                                '        sit soluta veniam, voluptatibus.'
+                        },
+
+                    ]
+                }
+            ],
+
         }),
 
     };
@@ -84,7 +129,7 @@
     }
 
     .support-content {
-        border: 2px solid #ce0504;
+        border: 2px solid #8e24aa;
         margin-top: 50px;
         border-radius: 76px 6px 76px 6px;
         background-color: #f5f5f5;
