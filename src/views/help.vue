@@ -23,9 +23,9 @@
                 </v-expansion-panels>
             </v-card>
         </v-row>
-        <v-row class="position-relative mx-0 pa-7">
+        <v-row class="mx-0 pa-7" style="position: relative">
             <div class="container support-content">
-                <img src="../assets/bg-footer.svg" class="bg-footer">
+                <img src="../assets/bg-footer.svg" class="bg-footer" alt="">
                 <div class="support-body d-flex justify-center align-center text-center flex-wrap">
                     <div class="flex-1 ma-2">
                         <div class="text-lg-h5 text-h6 font-weight-bold">Please feel free to reach out to us at</div>
@@ -76,9 +76,9 @@
     .bg-footer {
         position: absolute;
         width: 17%;
-        top: -43%;
-        right: 1%;
-        transform: rotate(71deg);
+        top: -26%;
+        right: 0;
+        transform: rotate(51deg);
         max-width: 100%;
         height: auto;
     }
@@ -92,6 +92,7 @@
         box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
         padding-top: 1.5rem !important;
         padding-bottom: 1.5rem !important;
+        position: relative;
     }
 
     .flex-1 {
