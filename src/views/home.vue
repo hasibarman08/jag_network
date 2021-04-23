@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-container>
-            <v-row>
+            <v-row class="my-7 py-7">
                 <v-col sm="6" cols="12" class="d-flex justify-center flex-column">
                     <div class="primary--text text-lg-h3 text-sm-h4 text-h5 ">
                         Join JAG.<br>
@@ -19,14 +19,15 @@
                                 color="primary darken-1"
                                 dark
                                 large
+                                href="https://www.jag.network/apply"
                         >
                             join today
                         </v-btn>
                     </div>
 
                 </v-col>
-                <v-col sm="6" cols="12" class="d-flex">
-                    <v-img src="./../assets/chartt.png" class="ml-md-auto"></v-img>
+                <v-col sm="6" cols="12" class="d-flex align-center justify-content-center">
+                    <v-img src="./../assets/chartt.png" max-height="300px" contain></v-img>
                 </v-col>
             </v-row>
         </v-container>
@@ -49,7 +50,7 @@
                         ></iframe>
                     </v-container>
                     <div class="text-center my-5">
-                        <v-btn large rounded color="white">Sign up</v-btn>
+                        <v-btn large rounded color="white" href="https://www.jag.network/apply">Sign up</v-btn>
                     </div>
                 </v-col>
             </v-row>
@@ -158,7 +159,7 @@
                                     </div>
                                 </v-card-text>
                                 <div class="text-center mt-4">
-                                    <v-btn large rounded dark color="primary darken-1">FAQ's</v-btn>
+                                    <v-btn large rounded dark color="primary darken-1" :to="{name:'help'}">FAQ's</v-btn>
                                 </div>
                             </v-card>
                         </v-col>
@@ -172,7 +173,9 @@
                     <div class=" text-lg-h4 text-h5 text-uppercase text-center my-4">
                         Need more info?
                     </div>
-                    <v-btn large rounded dark color="secondary darken-1" class="my-4">CONTACT US</v-btn>
+                    <v-btn large rounded dark color="secondary darken-1" class="my-4"
+                           href="https://www.jag.network/contact">CONTACT US
+                    </v-btn>
                     <p>info@jagindustrials.com</p>
                 </v-col>
             </v-row>

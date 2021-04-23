@@ -8,6 +8,7 @@ import rewards from './views/rewards.vue'
 import commission from './views/commission.vue'
 import login from './views/login.vue'
 import register from './views/register.vue'
+import help from './views/help.vue'
 import dashboard from './views/dashboard.vue'
 import DashboardLayout from './layout/dashboardLayout'
 import AuthLayout from './layout/authLayout'
@@ -56,6 +57,11 @@ export default new Router({
                     path: '/commissions',
                     name: 'commission',
                     component: commission
+                },
+                 {
+                    path: '/help',
+                    name: 'help',
+                    component: help
                 },
             ]
         },
