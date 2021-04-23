@@ -29,6 +29,7 @@
                         <router-link :to="'/rewards'" class="menu-item">Rewards</router-link>
                         <router-link :to="'/contact'" class="menu-item">Contacts</router-link>
                         <router-link :to="'/commissions'" class="menu-item">Commissions</router-link>
+                        <router-link :to="'/help'" class="menu-item">Help</router-link>
                     </div>
                     <v-btn
                             color="purple darken-1"
@@ -117,6 +118,10 @@
                         <v-list-item :to="'/commissions'" dense
                         >
                             <v-list-item-title class="subtitle-2">Commissions</v-list-item-title>
+                        </v-list-item>
+                        <v-list-item :to="'/help'" dense
+                        >
+                            <v-list-item-title class="subtitle-2">Help</v-list-item-title>
                         </v-list-item>
                     </v-list>
                 </v-menu>
