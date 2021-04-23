@@ -9,14 +9,14 @@
                     </div>
                 </v-col>
             </v-card>
-            <v-card class="faq-card">
+            <v-card class="faq-card" width="95%">
                 <v-expansion-panels accordion>
                     <v-expansion-panel
                             v-for="(item,i) in faq"
                             :key="i"
                     >
-                        <v-expansion-panel-header>{{item.question}}</v-expansion-panel-header>
-                        <v-expansion-panel-content>
+                        <v-expansion-panel-header class="subtitle-1 font-weight-bold">{{item.question}}</v-expansion-panel-header>
+                        <v-expansion-panel-content class="subtitle-2">
                             <div v-text="item.answer"></div>
                         </v-expansion-panel-content>
                     </v-expansion-panel>
@@ -25,17 +25,19 @@
         </v-row>
         <v-row class="position-relative mx-0 pa-7">
             <div class="container support-content">
-            <img src="../assets/bg-footer.svg" class="bg-footer">
-            <div class="support-body d-flex justify-center align-center text-center flex-wrap">
-                <div class="flex-1 ma-2">
-                    <div class="text-lg-h5 text-h6 font-weight-bold">Please feel free to reach out to us at</div>
-                    <h4>info@jagindustrials.com</h4>
-                </div>
-                <div class="flex-1 ma-2">
-                    <v-btn color="red darken-3" class="white--text" href="https://www.jag.network/contact">Contact Support</v-btn>
+                <img src="../assets/bg-footer.svg" class="bg-footer">
+                <div class="support-body d-flex justify-center align-center text-center flex-wrap">
+                    <div class="flex-1 ma-2">
+                        <div class="text-lg-h5 text-h6 font-weight-bold">Please feel free to reach out to us at</div>
+                        <h4>info@jagindustrials.com</h4>
+                    </div>
+                    <div class="flex-1 ma-2">
+                        <v-btn color="red darken-3" class="white--text" href="https://www.jag.network/contact">Contact
+                            Support
+                        </v-btn>
+                    </div>
                 </div>
             </div>
-        </div>
         </v-row>
 
     </v-container>
@@ -49,7 +51,12 @@
         name: 'App',
         data: () => ({
             faq: [
-                {question: 'question 1?', answer: 'answer 1'},
+                {
+                    question: 'lorem ipsum dolor lodl fdsfd sdfdsf sdfsdf?',
+                    answer: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus asperiores cumque cupiditate deserunt\n' +
+                        '        distinctio earum harum molestias necessitatibus nihil obcaecati omnis ratione rerum saepe sapiente similique,\n' +
+                        '        sit soluta veniam, voluptatibus.'
+                },
                 {question: 'question 2?', answer: 'answer 2'},
                 {question: 'question 3?', answer: 'answer 3'},
                 {question: 'question 4?', answer: 'answer 4'},
