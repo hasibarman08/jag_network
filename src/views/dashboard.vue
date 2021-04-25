@@ -19,7 +19,7 @@
                                 <v-card color="purple darken-1" dark class="text-center">
                                     <v-card-text>
                                         <div class="subtitle-2">Today</div>
-                                        <div class="subtitle-1"><b class="white--text">257.74</b> <span
+                                        <div class="subtitle-1"><b class="white--text">{{today.toFixed(2)}}</b> <span
                                                 class="subtitle-2">HNT</span></div>
                                     </v-card-text>
                                 </v-card>
@@ -28,7 +28,7 @@
                                 <v-card color="purple darken-1" dark class="text-center">
                                     <v-card-text>
                                         <div class="subtitle-2">Yesterday</div>
-                                        <div class="subtitle-1"><b class="white--text">157.74</b> <span
+                                        <div class="subtitle-1"><b class="white--text">{{yesterday.toFixed(2)}}</b> <span
                                                 class="subtitle-2">HNT</span></div>
                                     </v-card-text>
                                 </v-card>
@@ -36,8 +36,8 @@
                             <v-col lg="3" md="6" cols="12" class="pa-1">
                                 <v-card color="purple darken-1" dark class="text-center">
                                     <v-card-text>
-                                        <div class="subtitle-2">7 days Average</div>
-                                        <div class="subtitle-1"><b class="white--text">357.74</b> <span
+                                        <div class="subtitle-2">7 days earn</div>
+                                        <div class="subtitle-1"><b class="white--text">{{week.toFixed(2)}}</b> <span
                                                 class="subtitle-2">HNT</span></div>
                                     </v-card-text>
                                 </v-card>
@@ -45,8 +45,8 @@
                             <v-col lg="3" md="6" cols="12" class="pa-1">
                                 <v-card color="purple darken-1" dark class="text-center">
                                     <v-card-text>
-                                        <div class="subtitle-2">30 day average</div>
-                                        <div class="subtitle-1"><b class="white--text">257.74</b> <span
+                                        <div class="subtitle-2">30 day earn</div>
+                                        <div class="subtitle-1"><b class="white--text">{{sums.toFixed(2)}}</b> <span
                                                 class="subtitle-2">HNT</span></div>
                                     </v-card-text>
                                 </v-card>
@@ -63,53 +63,7 @@
                                 <v-card-text>
                                     <div class="text-uppercase">Oracle</div>
                                     <div class="text-h6">
-                                        <v-icon>mdi-currency-usd</v-icon> 12.78
-                                    </div>
-                                    <div class="success--text d-flex align-center justify-center">
-                                        <v-icon color="success">mdi-arrow-up-bold</v-icon>
-                                        <div>4.24%</div>
-                                    </div>
-                                </v-card-text>
-                            </v-card>
-                        </v-col>
-                        <v-col lg="3" md="6" cols="12" class="pa-1">
-                            <v-card class="text-center">
-                                <v-card-text>
-                                    <div class="text-uppercase">Coingeko</div>
-                                    <div class="text-h6">
-                                        <v-icon>mdi-currency-usd</v-icon> 12.78
-                                    </div>
-                                    <div class="success--text d-flex align-center justify-center">
-                                        <v-icon color="success">mdi-arrow-up-bold</v-icon>
-                                        <div>4.24%</div>
-                                    </div>
-                                </v-card-text>
-                            </v-card>
-                        </v-col>
-                        <v-col lg="3" md="6" cols="12" class="pa-1">
-                            <v-card class="text-center">
-                                <v-card-text>
-                                    <div class="text-uppercase">binance us</div>
-                                    <div class="text-h6">
-                                        <v-icon>mdi-currency-usd</v-icon> 12.78
-                                    </div>
-                                    <div class="success--text d-flex align-center justify-center">
-                                        <v-icon color="success">mdi-arrow-up-bold</v-icon>
-                                        <div>4.24%</div>
-                                    </div>
-                                </v-card-text>
-                            </v-card>
-                        </v-col>
-                        <v-col lg="3" md="6" cols="12" class="pa-1">
-                            <v-card class="text-center">
-                                <v-card-text>
-                                    <div >mBTC</div>
-                                    <div class="text-h6">
-                                        <v-icon>mdi-currency-usd</v-icon> 12.78
-                                    </div>
-                                    <div class="error--text d-flex align-center justify-center">
-                                        <v-icon color="error">mdi-arrow-down-bold</v-icon>
-                                        <div>-4.24%</div>
+                                        <v-icon>mdi-currency-usd</v-icon> {{(oracleprice.data.price/100000000 ).toFixed(2)}}
                                     </div>
                                 </v-card-text>
                             </v-card>
@@ -125,16 +79,15 @@
                         <div class="d-flex justify-space-between">
                             <div class="text-h5">
                                 <v-icon class="mr-1" large>mdi-currency-usd-circle-outline</v-icon>
-                                378.12 HNT
+                                {{sums}} HNT
                             </div>
-                            <div><small>$42343.343/BTC 0.0343434324</small></div>
+
                         </div>
-                        <div class="text-right mb-3"><small>432432jh234234kjh42k34hkj3h4kj2h34jkj234jk234</small></div>
+                        <div class="text-right mb-3"><small>{{haddress}}</small></div>
                         <apexchart type="area" height="350" :options="chartOptions2" :series="series2"></apexchart>
                     </v-card>
                 </v-col>
                 <v-col md="6" cols="12">
-
                 </v-col>
             </v-row>
         </v-container>
@@ -144,82 +97,26 @@
 
 <script>
     import {mapGetters} from "vuex";
-
+    import axios from 'axios';
     export default {
         data() {
             return {
-
+                uid:'',
+                haddress :'',
+                oracleprice: '',
+                sums:0,
+                yesterday:0,
+                week:0,
+                today:0,
                 series: [{
                     name: 'Reward',
                     data: [
-                        100,
-                        105,
-                        203,
-                        98,
-                        45,
-                        345,
-                        77,
-                        99,
-                        33,
-                        40,
-                        100,
-                        105,
-                        203,
-                        98,
-                        45,
-                        345,
-                        77,
-                        99,
-                        33,
-                        40,
-                        100,
-                        105,
-                        203,
-                        98,
-                        45,
-                        345,
-                        77,
-                        99,
-                        33,
-                        40,
-                        34
+
                     ]
                 }],
                 series2: [{
                     name: 'Reward',
-                    data: [
-                        5000,
-                        500,
-                        700,
-                        900,
-                        980,
-                        1100,
-                        1300,
-                        1500,
-                        1700,
-                        1800,
-                        2000,
-                        2100,
-                        2400,
-                        2700,
-                        3000,
-                        3400,
-                        4000,
-                        4100,
-                        4200,
-                        4300,
-                        4400,
-                        4500,
-                        4600,
-                        4700,
-                        4900,
-                        5100,
-                        5300,
-                        5400,
-                        6000,
-                        400,
-                        600
-                    ]
+                    data:  []
                 }],
                 chartOptions1: {
                     chart: {
@@ -243,37 +140,6 @@
                             rotate: -75
                         },
                         categories: [
-                            '2021/1/1',
-                            '2021/1/2',
-                            '2021/1/3',
-                            '2021/1/4',
-                            '2021/1/5',
-                            '2021/1/6',
-                            '2021/1/7',
-                            '2021/1/8',
-                            '2021/1/9',
-                            '2021/1/10',
-                            '2021/1/11',
-                            '2021/1/12',
-                            '2021/1/13',
-                            '2021/1/14',
-                            '2021/1/15',
-                            '2021/1/16',
-                            '2021/1/17',
-                            '2021/1/18',
-                            '2021/1/19',
-                            '2021/1/20',
-                            '2021/1/21',
-                            '2021/1/22',
-                            '2021/1/23',
-                            '2021/1/24',
-                            '2021/1/25',
-                            '2021/1/26',
-                            '2021/1/27',
-                            '2021/1/28',
-                            '2021/1/29',
-                            '2021/1/30',
-                            '2021/1/31',
                         ],
                         tickPlacement: 'on',
                         tickAmount: 15
@@ -331,39 +197,9 @@
                         labels: {
                             rotate: -75
                         },
-                        categories: [
-                            '2021/1/1',
-                            '2021/1/2',
-                            '2021/1/3',
-                            '2021/1/4',
-                            '2021/1/5',
-                            '2021/1/6',
-                            '2021/1/7',
-                            '2021/1/8',
-                            '2021/1/9',
-                            '2021/1/10',
-                            '2021/1/11',
-                            '2021/1/12',
-                            '2021/1/13',
-                            '2021/1/14',
-                            '2021/1/15',
-                            '2021/1/16',
-                            '2021/1/17',
-                            '2021/1/18',
-                            '2021/1/19',
-                            '2021/1/20',
-                            '2021/1/21',
-                            '2021/1/22',
-                            '2021/1/23',
-                            '2021/1/24',
-                            '2021/1/25',
-                            '2021/1/26',
-                            '2021/1/27',
-                            '2021/1/28',
-                            '2021/1/29',
-                            '2021/1/30',
-                            '2021/1/31',
-                        ],
+                        categories:  [ ],
+
+                        
                         tickPlacement: 'on',
                     },
                     yaxis: {
@@ -385,10 +221,92 @@
             }
         },
         computed: {
-            // map `this.user` to `this.$store.getters.user`
             ...mapGetters({
                 user: "user"
             })
+        },
+        beforeMount() {
+            this.getuid(),
+            this.getOracleValue(),
+            this.getdata()
+            var today = new Date();
+            var yesterday = new Date();
+            var week = new Date();
+            var month = new Date();
+            yesterday.setDate(today.getDate() - 1);
+            week.setDate(today.getDate() - 7);
+            month.setDate(today.getDate() - 30);
+                            axios.get(`https://api.helium.io/v1/hotspots/${this.haddress}/rewards/sum?min_time=${yesterday.toISOString().slice(0,10)}&max_time=${today.toISOString().slice(0,10)}`, {
+                    headers: {'accept': 'application/json'}
+                }).then((resp) => {
+                    this.yesterday = (resp.data.data.sum/1000000000000).toFixed(2)/100*20
+                })
+                                        axios.get(`https://api.helium.io/v1/hotspots/${this.haddress}/rewards/sum?min_time=${week.toISOString().slice(0,10)}&max_time=${today.toISOString().slice(0,10)}`, {
+                    headers: {'accept': 'application/json'}
+                }).then((resp) => {
+                    this.week = (resp.data.data.sum/1000000000000).toFixed(2)/100*20
+                })
+                                                        axios.get(`https://api.helium.io/v1/hotspots/${this.haddress}/rewards/sum?min_time=${today.toISOString().slice(0,10)}`, {
+                    headers: {'accept': 'application/json'}
+                }).then((resp) => {
+                    this.today = (resp.data.data.sum/1000000000000).toFixed(2)/100*20
+                })
+                                        axios.get(`https://api.helium.io/v1/hotspots/${this.haddress}/rewards/sum?min_time=${month.toISOString().slice(0,10)}&max_time=${today.toISOString().slice(0,10)}`, {
+                    headers: {'accept': 'application/json'}
+                }).then((resp) => {
+                    this.sums = (resp.data.data.sum/1000000000000).toFixed(2)/100*20
+                })
+        },
+
+        methods: {
+            getdata() {
+                var i
+                var arr = []
+                var sum=0
+                for (i = 1; i < 30; i++) {
+                    var date = new Date();
+                    date.setDate(date.getDate() - i);
+                    var ends = new Date();
+                    var a = i+1
+                    ends.setDate(ends.getDate() - a);
+                    var newdate=date.toISOString().slice(0,10)
+                    var end =ends.toISOString().slice(0,10)   
+                    this.chartOptions2.xaxis.categories.push(newdate.replaceAll("-", "/") );
+                    this.chartOptions1.xaxis.categories.push(newdate.replaceAll("-", "/") );
+                    axios.get(`https://api.helium.io/v1/hotspots/${this.haddress}/rewards/sum?max_time=${newdate}&min_time=${end}`, {
+                    headers: {'accept': 'application/json'}
+                }).then((resp) => {
+                    var res = resp.data.data.sum/100000000
+                    arr.push(res.toFixed(2))
+                }) 
+                }
+                arr.reverse()
+                this.chartOptions1.xaxis.categories.reverse()
+                this.chartOptions2.xaxis.categories.reverse()
+                        this.series = [{
+          data: arr
+        }]      ,                  this.series2 = [{
+          data: arr
+        }]
+            },
+                                    getOracleValue() {
+                axios.get(`https://api.helium.io/v1/oracle/prices/current`, {
+                    headers: {
+                        'accept': 'application/json'
+                    },
+                }).then((resp) => {
+                    this.oracleprice = resp.data;
+                })
+            },
+
+                        getuid() {
+                this.uid = this.user.data.uid
+                            axios.get(`https://api.jag.network/user/hotspot/${this.uid}`, {
+                headers: {'accept': 'application/json'}
+            }).then((resp) => {
+                this.haddress = resp.data[0].Haddress
+            })
+            },
         }
     };
 </script>

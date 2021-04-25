@@ -119,7 +119,7 @@
                         </v-col>
                     </v-row>
                     <div class="text-center my-5">
-                        <v-btn large rounded dark color="purple darken-1">Schedule Now</v-btn>
+                        <v-btn large rounded dark color="purple darken-1" href="https://www.jag.network/apply">Schedule Now</v-btn>
                     </div>
                 </v-col>
             </v-row>

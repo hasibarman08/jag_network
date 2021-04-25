@@ -4,7 +4,7 @@
             <v-col cols="12">
                 <v-card class="pa-3 purple darken-1">
                     <div class="d-flex justify-space-between align-center">
-                        <div class="text-sm-h5 text-xs-h6 font-weight-bold white--text">Commissions</div>
+                        <div class="text-sm-h5 text-xs-h6 font-weight-bold white--text">Rewards</div>
                                                                 <v-dialog
                                 v-model="dialog"
                                 width="500"
@@ -96,6 +96,23 @@
                         </div>
                     </div>
                 </v-card>
+                                <v-card
+                        class="my-2 border-left-3"
+                >
+                    <div>
+                        <div>
+                            <v-card-title
+                                    class="text-h6"
+                            >
+                               Earning Eligibility
+                            </v-card-title>
+
+                            <v-card-subtitle>
+                                               {{ this.installation.toISOString().slice(0,10) }}
+                            </v-card-subtitle>
+                        </div>
+                    </div>
+                </v-card>  
                 <v-card
                         class="my-2 border-left-4"
                 >
@@ -121,8 +138,29 @@
             </v-col>
             <v-col md="8" cols="12" class="my-2">
                 <v-card class="pa-2" style="height: 100%" min-height="300px">
-                    <iframe :src=mapurl width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0"
-                            marginwidth="0" style="border: 1px solid black"></iframe>
+                    <v-card-title> Transfer activity
+                        <v-spacer></v-spacer>
+                        <v-text-field
+                                v-model="search"
+                                append-icon="mdi-magnify"
+                                label="Search"
+                                single-line
+                                hide-details
+                        ></v-text-field>
+                    </v-card-title>
+                    <div class="pa-2">
+                        <v-data-table
+                                :headers="headers"
+                                :items="hotspotTotal.data"
+                                item-key="name"
+                                class="elevation-1"
+                                :search="search"
+                                :custom-filter="filterOnlyCapsText"
+                        >
+                            <template v-slot:body.append>
+                            </template>
+                        </v-data-table>
+                    </div>
                 </v-card>
             </v-col>
         </v-row>
@@ -139,7 +177,7 @@
         },
         data() {
             return {
-                 items: ['ETH', 'BTC', 'HNT', 'Zelle','PayPal'],
+                 items: ['ETH', 'BTC', 'HNT', 'Zelle','PayPal','Venmo'],
                 dialog: false,
                 hotspotDetails: [],
                 hotspotTotal: [],
@@ -150,6 +188,7 @@
                 message:'',
                 uid:"",
                 oracleprice: null,
+                installation:""
             }
             
         },
@@ -179,6 +218,7 @@
             this.start = yyyy2 + '-' + m2 + '-' + dd;
             this.getOracleValue();
             this.getuid();
+
 
         },
 
@@ -211,12 +251,14 @@
                         headers: {'accept': 'application/json'}
                     }).then((resp) => {
                         this.hotspotDetails = resp.data;
-                    })
-                axios.get(`https://api.helium.io/v1/hotspots/${address}/rewards/sum?min_time=${start}`, {
+                        var [year, month,day ]  = this.hotspotDetails.data.timestamp_added.substring(0,10).split("-")
+                        this.installation =  new Date(year, month , day)
+                axios.get(`https://api.helium.io/v1/hotspots/${address}/rewards/sum?min_time=${this.installation.toISOString().slice(0,10)}`, {
                     headers: {'accept': 'application/json'}
                 }).then((resp) => {
                     this.hotspotTotal = resp.data;
                     this.mapurl = ['https://www.openstreetmap.org/export/embed.html?bbox=' + this.hotspotDetails.data.lng + '%2C' + this.hotspotDetails.data.lat + '%2C' + this.hotspotDetails.data.lng + '%2C' + this.hotspotDetails.data.lat + '&layer=mapnik&marker=' + this.hotspotDetails.data.lat + '%2C' + this.hotspotDetails.data.lng].join('');
+                     })
                 })
             },
 

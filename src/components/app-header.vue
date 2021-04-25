@@ -19,16 +19,23 @@
                                     width="95"
                             />
                         </router-link>
+                        
                     </div>
+                                            <div class="mr-2 subtitle-2">HNT Conversion Price:
+                            <span class="gold_4--text darken-4 ml-2">
+                               $ {{ (oracleprice.data.price/100000000).toFixed(2) }}
+                            </span>
+                        </div>
                     <v-spacer></v-spacer>
                     <div v-if="user.loggedIn">
 
                         <!--                    <span class="mr-2">Oracle Price: </span><span class="yellow&#45;&#45;text darken-4">{{ oracleprice.data.price/100000000 }} $ </span>-->
+                        <router-link :to="'/dashboard'" class="menu-item">Dashboard</router-link>
                         <router-link :to="{name:'account'}" class="menu-item">Account</router-link>
                         <router-link :to="'/hotspot'" class="menu-item">Hotspot</router-link>
-                        <router-link :to="'/rewards'" class="menu-item">Rewards</router-link>
-                        <router-link :to="'/contact'" class="menu-item">Contacts</router-link>
-                        <router-link :to="'/commissions'" class="menu-item">Commissions</router-link>
+                        <!--<router-link :to="'/rewards'" class="menu-item">Rewards</router-link>-->
+                        <router-link :to="'/contact'" class="menu-item">Your Profile</router-link>
+                        <router-link :to="'/commissions'" class="menu-item">Rewards</router-link>
                         <router-link :to="'/help'" class="menu-item">Help</router-link>
                     </div>
                     <v-btn
@@ -43,11 +50,7 @@
                     </v-btn>
                     <v-spacer v-if="user.loggedIn"></v-spacer>
                     <div class="text-right" v-if="user.loggedIn">
-                        <div class="mr-2 subtitle-2">Oracle Price:
-                            <span class="gold_4--text darken-4 ml-2">
-                                {{ oracleprice.data.price/100000000 }} $
-                            </span>
-                        </div>
+
                         <v-menu offset-y>
                             <template v-slot:activator="{ on, attrs }">
                                 <v-btn
@@ -63,10 +66,6 @@
                                 </v-btn>
                             </template>
                             <v-list>
-                                <v-list-item :to="{name:'account'}" dense
-                                >
-                                    <v-list-item-title class="subtitle-2">Profile</v-list-item-title>
-                                </v-list-item>
                                 <v-list-item dense
                                              @click.prevent="signOut"
                                 >
@@ -99,6 +98,10 @@
                     </template>
 
                     <v-list>
+                        <v-list-item :to="'/dashboard'" dense
+                        >
+                            <v-list-item-title class="subtitle-2">Dashboard</v-list-item-title>
+                        </v-list-item>
                         <v-list-item :to="{name:'account'}" dense
                         >
                             <v-list-item-title class="subtitle-2">Account</v-list-item-title>
@@ -109,15 +112,15 @@
                         </v-list-item>
                         <v-list-item :to="'/rewards'" dense
                         >
-                            <v-list-item-title class="subtitle-2">Rewards</v-list-item-title>
+                            <!--<v-list-item-title class="subtitle-2">Rewards</v-list-item-title>
                         </v-list-item>
                         <v-list-item :to="'/contact'" dense
-                        >
-                            <v-list-item-title class="subtitle-2">Contacts</v-list-item-title>
+                        >-->
+                            <v-list-item-title class="subtitle-2">Your Profile</v-list-item-title>
                         </v-list-item>
                         <v-list-item :to="'/commissions'" dense
                         >
-                            <v-list-item-title class="subtitle-2">Commissions</v-list-item-title>
+                            <v-list-item-title class="subtitle-2">Rewards</v-list-item-title>
                         </v-list-item>
                         <v-list-item :to="'/help'" dense
                         >
@@ -157,14 +160,10 @@
                             <v-list-item>
                                 <v-list-item-title class="subtitle-2 gold_4--text darken-4 text-center">
                                     Hi, {{ user.data.displayName }}
-                                    <div class="mr-2 subtitle-2 black--text">Oracle Price:<span
-                                            class="purple--text darken-4 ml-2">{{ oracleprice.data.price/100000000 }} $ </span>
+                                    <div class="mr-2 subtitle-2 black--text">HNT Conversion Price<span
+                                            class="purple--text darken-4 ml-2" href="https://coinmarketcap.com/currencies/helium/">{{ (oracleprice.data.price/100000000).toFixed(2) }} $ </span>
                                     </div>
                                 </v-list-item-title>
-                            </v-list-item>
-                            <v-list-item :to="{name:'account'}" dense
-                            >
-                                <v-list-item-title class="subtitle-2">Profile</v-list-item-title>
                             </v-list-item>
                             <v-list-item dense
                                          @click.prevent="signOut"

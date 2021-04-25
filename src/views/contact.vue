@@ -47,7 +47,13 @@
                                 </v-text-field>
                             </v-col>
                         </v-row>
-
+                                                <v-textarea v-model="contact.hnt_address"
+                                    label="HNT address"
+                                    auto-grow
+                                    rows="1"
+                                    row-height="15"
+                        >
+                        </v-textarea>
 
                         <v-text-field v-model="contact.eth_address"
                                       label="ETH address"
@@ -62,20 +68,17 @@
                                       label="Zelle"
                         >
                         </v-text-field>
-                        <v-textarea v-model="contact.hnt_address"
-                                    label="HNT address"
-                                    auto-grow
-                                    rows="1"
-                                    row-height="15"
+                                                <v-text-field v-model="contact.venmo_address"
+                                      label="Venmo"
                         >
-                        </v-textarea>
-                        {{info.Antenna}}
+                        </v-text-field>
+
                         <v-btn class="purple darken-1 white--text my-3 float-right" @click="save">Save</v-btn>
 
                     </v-form>
 
                 </v-col>
-
+{{info.Antenna}}
             </v-row>
         </v-card>
     </v-container>
@@ -117,8 +120,7 @@
                 axios.get(`https://api.jag.network/user/payment/${this.uid}`, {
                     headers: {'accept': 'application/json'}
                 }).then((resp) => {
-                    try {
-                        console.log(resp.data[0]),
+                    try {   
                             this.info = resp.data[0],
                             this.populateField(resp.data[0])
                     } catch (err) {
@@ -128,7 +130,6 @@
 
             },
             populateField(arr) {
-                console.log(arr.paypal);
                 this.contact.paypal_address = arr.paypal
                 try {
                     this.contact.paypal_address = arr.paypal
@@ -160,6 +161,11 @@
                 } catch (err) {
                     console.log('empty value')
                 }
+                try {
+                    this.contact.venmo_address = arr.Venmo
+                } catch (err) {
+                    console.log('empty value')
+                }
             },
             save() {
                 if (this.$refs.form.validate()) {
@@ -170,7 +176,8 @@
                         zelle: this.contact.zelle_address,
                         mobile: this.contact.phone,
                         btc: this.contact.btc_address,
-                        eth: this.contact.eth_address
+                        eth: this.contact.eth_address,
+                        venmo: this.contact.venmo_address
                     };
                     axios.put(`https://api.jag.network/payment/${this.uid}`, payload), {headers: {'Content-Type': 'application/json'}};
 

@@ -63,23 +63,6 @@
                     </div>
                 </v-card>
                 <v-card
-                        class="my-2 border-left-2"
-                >
-                    <div>
-                        <div>
-                            <v-card-title
-                                    class="text-h6"
-                            >
-                                Account block
-                            </v-card-title>
-
-                            <v-card-subtitle>
-                                {{ account.data.block }}
-                            </v-card-subtitle>
-                        </div>
-                    </div>
-                </v-card>
-                <v-card
                         class="my-2 border-left-4"
                 >
                     <div>
@@ -115,7 +98,7 @@
             </v-col>
             <v-col md="9" cols="12" class="my-2">
                 <v-card>
-                    <v-card-title>Owned hotspot
+                    <v-card-title> Leased Hotspots
                         <v-spacer></v-spacer>
                         <v-text-field
                                 v-model="search"
