@@ -6,6 +6,9 @@ import firebase from 'firebase/app'
 import store from "./store";
 import './assets/app.scss'
 import VueApexCharts from 'vue-apexcharts'
+import VueCookies from 'vue-cookies';
+
+Vue.use(VueCookies);
 Vue.use(VueApexCharts)
 
 Vue.component('apexchart', VueApexCharts)
@@ -25,6 +28,7 @@ firebase.initializeApp(configOptions);
 
 firebase.auth().onAuthStateChanged(user => {
   store.dispatch("fetchUser", user);
+  VueCookies.set("uid", user.uid, "7d");
 });
 
 new Vue({

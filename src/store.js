@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import VueCookies from 'vue-cookies';
 
 Vue.use(Vuex);
 
@@ -32,7 +33,8 @@ export default new Vuex.Store({
         commit("SET_USER", {
           displayName: user.displayName,
           email: user.email,
-          uid: user.uid
+          uid: user.uid,
+          
         });
       } else {
         commit("SET_USER", null);

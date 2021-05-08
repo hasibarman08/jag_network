@@ -225,7 +225,7 @@
                     {text: 'Time', value: 'timestamp', dataType: "Date"},
                     {text: 'Gateway', value: 'gateway'},
                     {text: 'Account', value: 'account'},
-                    {text: 'Amout', value: 'amount'},
+                    {text: 'Amout in HNT', value: 'amount'},
                 ]
             },
             computedDateFormatted() {

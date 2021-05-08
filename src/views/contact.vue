@@ -37,12 +37,16 @@
                             <v-col sm="6" cols="12">
                                 <v-text-field v-model="contact.phone"
                                               label="Phone"
+                                              autocomplete="off"
+                                              type='text'
                                 >
                                 </v-text-field>
                             </v-col>
                             <v-col sm="6" cols="12">
                                 <v-text-field v-model="contact.paypal_address"
                                               label="PayPal email"
+                                              autocomplete="off"
+                                              type='text'
                                 >
                                 </v-text-field>
                             </v-col>
@@ -51,25 +55,35 @@
                                     label="HNT address"
                                     auto-grow
                                     rows="1"
+                                    type='text'
                                     row-height="15"
+                                    autocomplete="off"
                         >
                         </v-textarea>
 
                         <v-text-field v-model="contact.eth_address"
                                       label="ETH address"
+                                      autocomplete="off"
+                                      type='text'
                         >
                         </v-text-field>
                         <v-text-field v-model="contact.btc_address"
                                       label="BTC address"
+                                      type='text'
+                                      autocomplete="off"
                         >
                         </v-text-field>
 
                         <v-text-field v-model="contact.zelle_address"
                                       label="Zelle"
+                                      type='text'
+                                      autocomplete="off"
                         >
                         </v-text-field>
                                                 <v-text-field v-model="contact.venmo_address"
                                       label="Venmo"
+                                      type='text'
+                                      autocomplete="off"
                         >
                         </v-text-field>
 
@@ -88,10 +102,13 @@
 <script>
     import axios from 'axios';
     import {mapGetters} from "vuex";
+  import VueCookies from 'vue-cookies';
 
     export default {
         name: 'App',
-        data: () => ({
+        data() {
+            return{
+            uid:this.$cookies.get('uid'),
             info: {},
             contact: {},
             rules: {
@@ -101,7 +118,8 @@
                     v => /.+@.+/.test(v) || 'E-mail must be valid',
                 ],
             }
-        }),
+            }
+        },
         computed: {
             ...mapGetters({
                 user: "user",
@@ -116,7 +134,6 @@
         },
         methods: {
             getuid() {
-                this.uid = this.user.data.uid
                 axios.get(`https://api.jag.network/user/payment/${this.uid}`, {
                     headers: {'accept': 'application/json'}
                 }).then((resp) => {

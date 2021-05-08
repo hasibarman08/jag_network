@@ -22,7 +22,7 @@
                         
                     </div>
                                             <div class="mr-2 subtitle-2">HNT Conversion Price:
-                            <span class="gold_4--text darken-4 ml-2">
+                            <span class="gold_4--text darken-4 ml-2" @click="HNTopen()">
                                $ {{ (oracleprice.data.price/100000000).toFixed(2) }}
                             </span>
                         </div>
@@ -31,12 +31,12 @@
 
                         <!--                    <span class="mr-2">Oracle Price: </span><span class="yellow&#45;&#45;text darken-4">{{ oracleprice.data.price/100000000 }} $ </span>-->
                         <router-link :to="'/dashboard'" class="menu-item">Dashboard</router-link>
-                        <router-link :to="{name:'account'}" class="menu-item">Account</router-link>
+                    <!--<<router-link :to="{name:'account'}" class="menu-item">Account</router-link>-->
                         <router-link :to="'/hotspot'" class="menu-item">Hotspot</router-link>
                         <!--<router-link :to="'/rewards'" class="menu-item">Rewards</router-link>-->
                         <router-link :to="'/contact'" class="menu-item">Your Profile</router-link>
                         <router-link :to="'/commissions'" class="menu-item">Rewards</router-link>
-                        <router-link :to="'/help'" class="menu-item">Help</router-link>
+                        <!--<router-link :to="'/help'" class="menu-item">Help</router-link>-->
                     </div>
                     <v-btn
                             color="purple darken-1"
@@ -102,15 +102,15 @@
                         >
                             <v-list-item-title class="subtitle-2">Dashboard</v-list-item-title>
                         </v-list-item>
-                        <v-list-item :to="{name:'account'}" dense
+                     <!--   <v-list-item :to="{name:'account'}" dense
                         >
                             <v-list-item-title class="subtitle-2">Account</v-list-item-title>
-                        </v-list-item>
+                        </v-list-item>-->
                         <v-list-item :to="'/hotspot'" dense
                         >
                             <v-list-item-title class="subtitle-2">Hotspot</v-list-item-title>
                         </v-list-item>
-                        <v-list-item :to="'/rewards'" dense
+                        <v-list-item :to="'/contact'" dense
                         >
                             <!--<v-list-item-title class="subtitle-2">Rewards</v-list-item-title>
                         </v-list-item>
@@ -122,10 +122,11 @@
                         >
                             <v-list-item-title class="subtitle-2">Rewards</v-list-item-title>
                         </v-list-item>
-                        <v-list-item :to="'/help'" dense
+
+                        <!--<v-list-item :to="'/help'" dense
                         >
                             <v-list-item-title class="subtitle-2">Help</v-list-item-title>
-                        </v-list-item>
+                        </v-list-item>-->
                     </v-list>
                 </v-menu>
                 <div class="d-flex align-center">
@@ -218,11 +219,16 @@
                     this.oracleprice = resp.data;
                 })
             },
+            HNTopen(){
+                window.open("https://coinmarketcap.com/currencies/helium/", "_blank")
+
+            },
             signOut() {
                 firebase
                     .auth()
                     .signOut()
                     .then(() => {
+                         this.$cookies.remove('uid');
                         this.$router.replace({
                             name: "home"
                         });

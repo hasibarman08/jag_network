@@ -47,6 +47,16 @@
                     >
                         {{error}}
                     </v-alert>
+                                        <v-alert
+                            dense
+                            outlined
+                            color="success"
+                            class="my-5"
+                            dismissible
+                            v-if="success"
+                    >
+                        {{success}}
+                    </v-alert>
                 </v-form>
             </v-card>
 
@@ -67,6 +77,7 @@
                 password: ""
             },
             error: null,
+            success:null,
             rules: {
                 requiredRules: [v => !!v || 'This field is required'],
                 emailRules: [
@@ -101,7 +112,7 @@
 });                               
                   // send the signed in user a verification email
                   user.sendEmailVerification();
-          this.$router.replace({ name: "dashboard" });
+          this.success = "an email was sended to your email address, please confirm your registration"
                         })
 
                         .catch(err => {

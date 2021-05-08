@@ -247,7 +247,7 @@
                 ],
                 media: {
                     video: {
-                        url: 'https://www.youtube.com/watch?v=QcOXgJNcZz0'
+                        url: 'https://vimeo.com/536000028'
                     },
                 }
 

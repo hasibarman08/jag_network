@@ -8,13 +8,13 @@
                     <v-btn class="ml-2 white--text" outlined :to="{name:'register'}">Sign Up</v-btn>
                 </div>
                 <span class="my-5">
-                    <v-btn rounded text class="lime--text text-capitalize" link><u>Forgot password?</u></v-btn>
+                    <v-btn rounded text class="lime--text text-capitalize" outlined :to="{name:'forgot'}"><u>Forgot password?</u></v-btn>
                 </span>
             </div>
         </v-col>
         <v-col sm="6" cols="12" class="px-7 py-3 hv-sm-100 d-flex">
             <v-card class="ma-auto" elevation="0" :width="$vuetify.breakpoint.smAndUp ? '70%' : '85%'">
-                <v-form ref="form" class="text-center">
+                <v-form ref="form" class="text-center" @submit="login">
                     <div class="headline secondary--text font-weight-bold my-2">Login</div>
                     <v-text-field v-model="form.email"
                                   label="Email*"
@@ -32,7 +32,7 @@
                                   :rules="rules.requiredRules"
                     >
                     </v-text-field>
-                    <v-btn class="purple darken-1 white--text my-3" @click="login">login</v-btn>
+                    <v-btn class="purple darken-1 white--text my-3"  @click="login">login</v-btn>
                     <v-alert
                             dense
                             outlined
@@ -52,7 +52,7 @@
 
 <script>
     import firebase from "firebase";
-
+    import {mapGetters} from "vuex";
     export default {
         name: 'App',
         data: () => ({
@@ -69,7 +69,13 @@
                 ],
             }
         }),
-
+        computed: {
+            
+            ...mapGetters({
+                user: "user"
+            })
+            
+        },
         methods: {
             login() {
                 this.error=null;
@@ -78,13 +84,20 @@
                         .auth()
                         .signInWithEmailAndPassword(this.form.email, this.form.password)
                         .then((data) => {
-                            this.$router.replace({name: "account"});
+                            setTimeout(function(){ console.log("login succesful"); }, 1000);
+                            
+                            this.$router.replace({name: "hotspot"})
+                            
                         })
                         .catch(err => {
                             this.error = err.message;
                         });
                 }
             },
+        
+        setcookie(){
+                    this.$cookies.set('uid', this.user.data.uid)
+        }
         },
     };
 </script>

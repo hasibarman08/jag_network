@@ -27,16 +27,17 @@
                                 </v-card-title>
                                 <v-card-text class="pa-3">
                                     <div>
-                                        <v-row >
-                                        <v-text-field
+                                        Please send an email to info@jagindustrials.com with subject title “Payment Request - your name” from the email associated with this account. In your email list the amount you wish to withdraw and your full legal name. Please ensure your HNT wallet address is correct in your profile prior to requesting cash out.
+                                        <!--<v-row >
+                                        <input
                                                 v-model="amount"
                                                 color="#474DFF"
                                                 filled
-                                                
+                                                :max= 'maxearn'
                                                 clearable
                                                 label="Enter amount"
                                                 type="number"
-                                        ></v-text-field>
+                                        >
                                                 <v-select
                                                 :items="items"
                                                 label="Payment method"
@@ -44,11 +45,12 @@
                                                 :append-outer-icon="message ? 'mdi-send' : 'mdi-send'"
                                                 @click:append-outer=sendRequest(amount,message)
                                                 ></v-select>
-                                        </v-row>
+                                        </v-row>-->
                                     </div>
                                 </v-card-text>
-                                <p>MAX amount available for withdrawal {{  maxearn }} HNT</p>
-                               <p> selected Payment Method {{message}} </p>
+                                <!--<p>MAX amount available for withdrawal {{  maxearn }} HNT</p>
+                               <p> selected Payment Method {{message}} </p>-->
+                               
                             </v-card>
                         </v-dialog>
                     </div>
@@ -181,6 +183,7 @@
 <script>
     import axios from 'axios';
     import {mapGetters} from "vuex";
+      import VueCookies from 'vue-cookies';
 
     export default {
         setup() {
@@ -199,13 +202,12 @@
                 mapurl: "",
                 start: "",
                 today: "",
-                uid:"",
+                uid:this.$cookies.get('uid'),
                 oracleprice: null,
                 installation:"",
                 requestLog:{},
                 maxearn:0
             }
-            
         },
                 computed: {
             ...mapGetters({
@@ -222,11 +224,7 @@
                     {
                         text: 'status',
                         value: 'flag',
-                        filter: value => {
-                            if (!this.calories) return true
 
-                            return value < parseInt(this.calories)
-                        },
                     },
                     {text: 'payment method', value: 'payment'},
                     {text: 'amount', value: 'amount'},
@@ -274,7 +272,8 @@
                 this.getRequest()
             },
             getuid() {
-                this.uid = this.user.data.uid
+                //this.$cookies.set('uid', this.user.data.uid)
+                //this.uid = this.user.data.uid
                             axios.get(`https://api.jag.network/user/hotspot/${this.uid}`, {
                 headers: {'accept': 'application/json'}
             }).then((resp) => {
@@ -294,7 +293,7 @@
                 }).then((resp) => {
                     this.hotspotTotal = resp.data;
                     this.mapurl = ['https://www.openstreetmap.org/export/embed.html?bbox=' + this.hotspotDetails.data.lng + '%2C' + this.hotspotDetails.data.lat + '%2C' + this.hotspotDetails.data.lng + '%2C' + this.hotspotDetails.data.lat + '&layer=mapnik&marker=' + this.hotspotDetails.data.lat + '%2C' + this.hotspotDetails.data.lng].join('');
-                    this.maxearn = ((this.hotspotTotal.data.total/100) * 20).toFixed(2) 
+                    this.maxearn = parseInt(((this.hotspotTotal.data.total/100) * 20).toFixed(2))
                      })
                 })
             },

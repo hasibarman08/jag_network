@@ -1,4 +1,4 @@
-<template>
+    <template>
     <v-row class="ma-0">
         <v-col sm="6" cols="12" class="purple darken-1 pa-7 d-flex align-items-center hv-sm-100">
             <div class="ma-auto text-center white--text">
@@ -64,7 +64,9 @@
                 if (this.$refs.form.validate()) {
                     console.log(email)
                         firebase.auth().sendPasswordResetEmail(email);
+                        this.$router.push({ name: 'login' })
                 }
+
             },
         },
     };

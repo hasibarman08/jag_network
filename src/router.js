@@ -64,11 +64,7 @@ export default new Router({
                     name: 'help',
                     component: help
                 },
-                                {
-                    path: '/forgot',
-                    name: 'forgot',
-                    component: forgot
-                },
+
             ]
         },
         {
@@ -85,6 +81,11 @@ export default new Router({
                     path: '/register',
                     name: 'register',
                     component: register
+                },
+                {
+                    path: '/forgot',
+                    name: 'forgot',
+                    component: forgot
                 },
 
             ]

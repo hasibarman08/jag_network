@@ -1,12 +1,72 @@
 <template>
     <div class="light">
         <v-container>
-            <v-card>
-                <v-card-title class="py-7">
-                    Welcome to Helium Hotspot Manager!
-                </v-card-title>
-            </v-card>
-            <v-row class="my-4">
+                                            <v-col v-if="loading===false" cols="12"> <v-alert  type="error">
+       DASHBOARD IS LOADING
+    </v-alert></v-col>
+                        <v-col cols="12">
+                <v-card class="pa-3 purple darken-1">
+                    <div class="d-flex justify-space-between align-center">
+                        <div class="text-sm-h5 text-xs-h6 font-weight-bold white--text">Welcome to Helium Hotspot Manager!</div>
+<!--                        <v-dialog
+                                v-model="dialog"
+                                width="500"
+                        >
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn
+                                        outlined
+                                        dark
+                                        small
+                                        v-bind="attrs"
+                                        v-on="on"
+                                >
+                                    Track Hotspot
+                                </v-btn>
+                            </template>
+
+                            <v-card>
+                                <v-card-title class="headline purple darken-1 white--text">
+                                    Track Hotspot
+                                </v-card-title>
+                                <v-card-text class="pa-3">
+
+                                    <div>
+                                        <v-text-field
+                                                v-model="message"
+                                                :append-outer-icon="message ? 'mdi-send' : 'mdi-send'"
+                                                filled
+                                                clearable
+                                                label="Enter Hotspot Address"
+                                                type="text"
+                                                @click:append-outer=hotspotDet(message,start,today)
+                                        ></v-text-field>
+                                    </div>
+                                </v-card-text>
+                            </v-card>
+                        </v-dialog>-->
+                        <div class="text-sm-h5 text-xs-h6 font-weight-bold white--text">
+        <v-select
+        dark
+          :items="hots"
+          label="Leased Hotspot"
+          dense
+          v-model="hname"
+          @input=getHotspot(hname)
+        ></v-select>
+
+        </div>
+                    </div>
+                </v-card>
+            </v-col>
+                                                        <v-col v-if="loading===false" cols="12"> <v-alert  type="warning">
+       You will start earning rewards on {{hname}} (30 days after install) 
+    </v-alert></v-col>
+                       <!-- <v-row >
+             <v-col md="6" cols="12">
+               <h1></h1>
+ </v-col>v-else
+            </v-row>-->
+            <v-row  class="my-4">
                 <v-col md="6" cols="12">
                     <div class="d-flex align-center">
                         <v-icon class="mr-1">mdi-chart-box</v-icon>
@@ -53,7 +113,7 @@
                             </v-col>
                         </v-row>
                     </v-card>
-                    <div class="d-flex align-center py-4">
+<!--                  <div class="d-flex align-center py-4">
                         <v-icon class="mr-1">mdi-chart-bell-curve-cumulative</v-icon>
                         HNT Price
                     </div>
@@ -68,7 +128,7 @@
                                 </v-card-text>
                             </v-card>
                         </v-col>
-                    </v-row>
+                    </v-row>-->
                 </v-col>
                 <v-col md="6" cols="12">
                     <div class="d-flex align-center">
@@ -79,7 +139,7 @@
                         <div class="d-flex justify-space-between">
                             <div class="text-h5">
                                 <v-icon class="mr-1" large>mdi-currency-usd-circle-outline</v-icon>
-                                {{sums}} HNT
+                                {{sums.toFixed(2)}} HNT
                             </div>
 
                         </div>
@@ -97,26 +157,32 @@
 
 <script>
     import {mapGetters} from "vuex";
+    import VueCookies from 'vue-cookies';
     import axios from 'axios';
+
+
     export default {
         data() {
             return {
-                uid:'',
+                uid:this.$cookies.get('uid'),
                 haddress :'',
                 oracleprice: '',
                 sums:0,
                 yesterday:0,
+                loading:false,
                 week:0,
+                arr:{},
+                hname:'',
                 today:0,
+                commission:20,
+                hots:[],
                 series: [{
                     name: 'Reward',
-                    data: [
-
-                    ]
+                    data: this.$cookies.get('series')
                 }],
                 series2: [{
                     name: 'Reward',
-                    data:  []
+                    data:  this.$cookies.get('series2')
                 }],
                 chartOptions1: {
                     chart: {
@@ -221,45 +287,25 @@
             }
         },
         computed: {
+            
             ...mapGetters({
                 user: "user"
             })
+            
         },
         beforeMount() {
+            this.loading=false,
             this.getuid(),
             this.getOracleValue(),
-            this.getdata()
-            var today = new Date();
-            var yesterday = new Date();
-            var week = new Date();
-            var month = new Date();
-            yesterday.setDate(today.getDate() - 1);
-            week.setDate(today.getDate() - 7);
-            month.setDate(today.getDate() - 30);
-                            axios.get(`https://api.helium.io/v1/hotspots/${this.haddress}/rewards/sum?min_time=${yesterday.toISOString().slice(0,10)}&max_time=${today.toISOString().slice(0,10)}`, {
-                    headers: {'accept': 'application/json'}
-                }).then((resp) => {
-                    this.yesterday = (resp.data.data.sum/1000000000000).toFixed(2)/100*20
-                })
-                                        axios.get(`https://api.helium.io/v1/hotspots/${this.haddress}/rewards/sum?min_time=${week.toISOString().slice(0,10)}&max_time=${today.toISOString().slice(0,10)}`, {
-                    headers: {'accept': 'application/json'}
-                }).then((resp) => {
-                    this.week = (resp.data.data.sum/1000000000000).toFixed(2)/100*20
-                })
-                                                        axios.get(`https://api.helium.io/v1/hotspots/${this.haddress}/rewards/sum?min_time=${today.toISOString().slice(0,10)}`, {
-                    headers: {'accept': 'application/json'}
-                }).then((resp) => {
-                    this.today = (resp.data.data.sum/1000000000000).toFixed(2)/100*20
-                })
-                                        axios.get(`https://api.helium.io/v1/hotspots/${this.haddress}/rewards/sum?min_time=${month.toISOString().slice(0,10)}&max_time=${today.toISOString().slice(0,10)}`, {
-                    headers: {'accept': 'application/json'}
-                }).then((resp) => {
-                    this.sums = (resp.data.data.sum/1000000000000).toFixed(2)/100*20
-                })
+            this.getdata(this.haddress),
+            this.getHotspotName(),
+            this.arraymanipulation(this.arr),
+            this.dataCard(this.haddress)
         },
 
         methods: {
-            getdata() {
+            getdata(haddress) {
+                this.loading=false
                 var i
                 var arr = []
                 var sum=0
@@ -273,13 +319,31 @@
                     var end =ends.toISOString().slice(0,10)   
                     this.chartOptions2.xaxis.categories.push(newdate.replaceAll("-", "/") );
                     this.chartOptions1.xaxis.categories.push(newdate.replaceAll("-", "/") );
-                    axios.get(`https://api.helium.io/v1/hotspots/${this.haddress}/rewards/sum?max_time=${newdate}&min_time=${end}`, {
+                    axios.get(`https://api.helium.io/v1/hotspots/${haddress}/rewards/sum?max_time=${newdate}&min_time=${end}`, {
                     headers: {'accept': 'application/json'}
                 }).then((resp) => {
-                    var res = resp.data.data.sum/100000000
-                    arr.push(res.toFixed(2))
+                    var res = resp.data.data.sum
+                    arr.push((res/1000000000000/100*this.commission).toFixed(2))
                 }) 
                 }
+                this.arr = arr
+            },
+                    getHotspotName(){
+                            var i;
+                                axios.get(`https://api.jag.network/user/hotspot/${this.uid}`, {
+                        headers: {'accept': 'application/json'}
+                    }).then((resp) => {
+                        this.hotspotAll = resp.data;
+                    for (i = 0; i < this.hotspotAll.length; i++) {
+                                axios.get(`https://api.helium.io/v1/hotspots/${this.hotspotAll[i].Haddress}`, {
+                        headers: {'accept': 'application/json'}
+                    }).then((resp) => {
+                        this.hots.push(resp.data.data.name)
+                    })
+                    }})
+
+        },
+            arraymanipulation(arr) {
                 arr.reverse()
                 this.chartOptions1.xaxis.categories.reverse()
                 this.chartOptions2.xaxis.categories.reverse()
@@ -288,6 +352,39 @@
         }]      ,                  this.series2 = [{
           data: arr
         }]
+        this.loading=true
+                this.$cookies.set('series', this.series)
+                        this.$cookies.set('series2', this.series2)
+                        this.$router.push({path: "/dashboard"});
+            },
+            dataCard(haddress){
+                var today = new Date();
+            var yesterday = new Date();
+            var week = new Date();
+            var month = new Date();
+            yesterday.setDate(today.getDate() - 1);
+            week.setDate(today.getDate() - 7);
+            month.setDate(today.getDate() - 30);
+                            axios.get(`https://api.helium.io/v1/hotspots/${this.haddress}/rewards/sum?min_time=${yesterday.toISOString().slice(0,10)}&max_time=${today.toISOString().slice(0,10)}`, {
+                    headers: {'accept': 'application/json'}
+                }).then((resp) => {
+                    this.yesterday = (resp.data.data.sum/1000000000000).toFixed(2)/100*this.commission
+                })
+                                        axios.get(`https://api.helium.io/v1/hotspots/${this.haddress}/rewards/sum?min_time=${week.toISOString().slice(0,10)}&max_time=${today.toISOString().slice(0,10)}`, {
+                    headers: {'accept': 'application/json'}
+                }).then((resp) => {
+                    this.week = (resp.data.data.sum/1000000000000).toFixed(2)/100*this.commission
+                })
+                                                        axios.get(`https://api.helium.io/v1/hotspots/${this.haddress}/rewards/sum?min_time=${today.toISOString().slice(0,10)}`, {
+                    headers: {'accept': 'application/json'}
+                }).then((resp) => {
+                    this.today = (resp.data.data.sum/1000000000000).toFixed(2)/100*this.commission
+                })
+                                        axios.get(`https://api.helium.io/v1/hotspots/${this.haddress}/rewards/sum?min_time=${month.toISOString().slice(0,10)}&max_time=${today.toISOString().slice(0,10)}`, {
+                    headers: {'accept': 'application/json'}
+                }).then((resp) => {
+                    this.sums = (resp.data.data.sum/1000000000000).toFixed(2)/100*this.commission
+                })
             },
                                     getOracleValue() {
                 axios.get(`https://api.helium.io/v1/oracle/prices/current`, {
@@ -298,13 +395,30 @@
                     this.oracleprice = resp.data;
                 })
             },
+                        getHotspot(hname){ 
+                axios.get(`https://api.helium.io/v1/hotspots/name/${hname}`, {
+          headers: { 'accept': 'application/json'}}).then((resp)=>{
+                                this.haddress = resp.data.data[0].address
+        this.dataCard(this.haddress)
+        this.getdata(this.haddress)
+        this.arraymanipulation(this.arr)      }
+          )},
+                    
 
                         getuid() {
-                this.uid = this.user.data.uid
+                            this.$cookies.set('uid', this.user.data.uid)
+                //this.uid = this.user.data.uid
                             axios.get(`https://api.jag.network/user/hotspot/${this.uid}`, {
                 headers: {'accept': 'application/json'}
             }).then((resp) => {
                 this.haddress = resp.data[0].Haddress
+                                                axios.get(`https://api.helium.io/v1/hotspots/${this.haddress}`, {
+                        headers: {'accept': 'application/json'}
+                    }).then((resp) => {
+                        this.hname = resp.data.data.name
+                    })
+                
+                
             })
             },
         }
